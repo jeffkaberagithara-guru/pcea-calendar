@@ -1,25 +1,34 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, Target } from 'react-feather';
+import { ChevronLeft, ChevronRight, Calendar, Target } from 'react-feather';
 import { getMonthData, getEventTypeColor } from "../events";
 
-function QuarterView({
-    title,
-    subTitle,
-    months,
-    events,
-    onEventSelect,
-    selectedEvent,
-    theme,
-    Icon,
-    MonthIcon
-}) {
+function QuarterOne({ events, onEventSelect, selectedEvent }) {
     const year = 2026;
+    const title = "Q1: January - April";
+    const subTitle = "2026";
+
+    const months = [
+        { name: "January", abbr: "JAN", index: 0 },
+        { name: "February", abbr: "FEB", index: 1 },
+        { name: "March", abbr: "MAR", index: 2 },
+        { name: "April", abbr: "APR", index: 3 },
+    ];
+
+    const theme = {
+        headerGradient: "bg-gradient-to-r from-indigo-600 to-purple-600",
+        monthBgGradient: "bg-gradient-to-br from-indigo-50 to-white",
+        monthBorder: "border-indigo-100",
+        monthIconColor: "text-indigo-500",
+        monthTextColor: "text-indigo-600",
+        hoverBg: "hover:bg-indigo-50",
+        monthEventDotBorder: "border-indigo-300"
+    };
 
     return (
-        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm">
+        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm mb-6">
             <div className={`px-4 py-3 flex items-center justify-between ${theme.headerGradient}`}>
                 <div className="flex items-center gap-3">
-                    <Icon className="w-5 h-5 text-white" />
+                    <Calendar className="w-5 h-5 text-white" />
                     <h2 className="text-lg font-semibold text-white">{title}</h2>
                 </div>
                 <div className="flex items-center gap-2">
@@ -71,7 +80,7 @@ function QuarterView({
                             <div key={month.abbr} className={`rounded-lg p-3 border ${theme.monthBgGradient} ${theme.monthBorder}`}>
                                 <div className="flex items-start gap-2">
                                     <div className="w-12 flex-shrink-0 flex flex-col items-center">
-                                        <MonthIcon className={`w-4 h-4 mb-1 ${theme.monthIconColor}`} />
+                                        <Target className={`w-4 h-4 mb-1 ${theme.monthIconColor}`} />
                                         <span className={`text-sm font-bold ${theme.monthTextColor}`}>{month.abbr}</span>
                                     </div>
 
@@ -116,4 +125,4 @@ function QuarterView({
     );
 }
 
-export default QuarterView;
+export default QuarterOne;
