@@ -1,18 +1,14 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Target } from 'react-feather';
-import { getMonthData, getEventTypeColor } from "../events";
+import { getMonthData, getEventTypeColor, ALL_MONTHS, WEEKDAYS } from "../events";
 
 function QuarterOne({ events, onEventSelect, selectedEvent }) {
     const year = 2026;
     const title = "Q1: January - April";
     const subTitle = "2026";
 
-    const months = [
-        { name: "January", abbr: "JAN", index: 0 },
-        { name: "February", abbr: "FEB", index: 1 },
-        { name: "March", abbr: "MAR", index: 2 },
-        { name: "April", abbr: "APR", index: 3 },
-    ];
+    const months = ALL_MONTHS.slice(0, 4);
+
 
     const theme = {
         headerGradient: "bg-gradient-to-r from-blue-600 to-sky-600",
@@ -48,9 +44,9 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                     <div className="flex items-center gap-2">
                         <div className="w-12 flex-shrink-0" />
                         <div className="flex gap-1 flex-1">
-                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, index) => (
+                            {WEEKDAYS.map((day, index) => (
                                 <div key={day} className={`flex-1 min-w-[32px] text-center text-xs font-medium ${index === 0 ? "text-red-500" :
-                                        (index === 2 || index === 4 || index === 6) ? "text-green-600" : "text-gray-500"
+                                    (index === 2 || index === 4 || index === 6) ? "text-green-600" : "text-gray-500"
                                     }`}>
                                     {day}
                                 </div>
@@ -97,29 +93,33 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     const dayEvent = monthEvents.find((e) => e.day === day);
                                                     const isSelected = selectedEvent?.id === dayEvent?.id;
 
-                                                    // Determine text color based on day of week (if no event)
-                                                    let dayTextColor = "text-gray-900";
-                                                    if (!dayEvent) {
-                                                        if (dayIndex === 0) dayTextColor = "text-red-600 font-semibold";
-                                                        else if (dayIndex === 2 || dayIndex === 4 || dayIndex === 6) dayTextColor = "text-green-600 font-semibold";
+                                                    // Determine styling based on day of week and events
+                                                    let cellStyle = theme.hoverBg;
+                                                    let isPracticeDay = !dayEvent && (dayIndex === 2 || dayIndex === 4 || dayIndex === 6);
+                                                    let isPresentationDay = !dayEvent && dayIndex === 0;
+
+                                                    if (dayEvent) {
+                                                        cellStyle = `${getEventTypeColor(dayEvent.category)} text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`;
+                                                    } else if (isPracticeDay) {
+                                                        cellStyle = "bg-green-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
+                                                    } else if (isPresentationDay) {
+                                                        cellStyle = "bg-red-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
                                                     }
 
                                                     return (
                                                         <div
                                                             key={dayIndex}
-                                                            onClick={() => dayEvent && onEventSelect(isSelected ? null : dayEvent)}
-                                                            className={`flex-1 min-w-[32px] h-7 flex items-center justify-center text-xs rounded cursor-pointer transition-all relative
-                                ${dayEvent
-                                                                    ? `${getEventTypeColor(dayEvent.category)} text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`
-                                                                    : `${dayTextColor} ${theme.hoverBg}`
-                                                                }`}
+                                                            onClick={() => (dayEvent || isPracticeDay || isPresentationDay) && onEventSelect(isSelected ? null : (dayEvent || (isPracticeDay ? { title: "Choir Practice", description: "Regular midweek choir practice session", category: "practice", time: "6:00 PM" } : { title: "Church Presentation", description: "Sunday morning church presentation", category: "presentation", time: "10:00 AM" })))}
+                                                            className={`flex-1 min-w-[32px] h-7 flex items-center justify-center text-xs rounded cursor-pointer transition-all relative ${cellStyle}`}
                                                         >
                                                             {day}
-                                                            {dayEvent && (
+                                                            {(dayEvent || isPracticeDay || isPresentationDay) && (
                                                                 <div className={`absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full border ${theme.monthEventDotBorder}`}></div>
                                                             )}
                                                         </div>
                                                     );
+
+
                                                 })}
                                             </div>
                                         ))}
