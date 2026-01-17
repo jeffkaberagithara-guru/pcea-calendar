@@ -15,13 +15,13 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
     ];
 
     const theme = {
-        headerGradient: "bg-gradient-to-r from-indigo-600 to-purple-600",
-        monthBgGradient: "bg-gradient-to-br from-indigo-50 to-white",
-        monthBorder: "border-indigo-100",
-        monthIconColor: "text-indigo-500",
-        monthTextColor: "text-indigo-600",
-        hoverBg: "hover:bg-indigo-50",
-        monthEventDotBorder: "border-indigo-300"
+        headerGradient: "bg-gradient-to-r from-blue-600 to-sky-600",
+        monthBgGradient: "bg-gradient-to-br from-blue-50 to-white",
+        monthBorder: "border-blue-100",
+        monthIconColor: "text-blue-500",
+        monthTextColor: "text-blue-600",
+        hoverBg: "hover:bg-blue-50",
+        monthEventDotBorder: "border-blue-300"
     };
 
     return (
@@ -48,8 +48,10 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                     <div className="flex items-center gap-2">
                         <div className="w-12 flex-shrink-0" />
                         <div className="flex gap-1 flex-1">
-                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                                <div key={day} className="flex-1 min-w-[32px] text-center text-xs font-medium text-gray-500">
+                            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, index) => (
+                                <div key={day} className={`flex-1 min-w-[32px] text-center text-xs font-medium ${index === 0 ? "text-red-500" :
+                                        (index === 2 || index === 4 || index === 6) ? "text-green-600" : "text-gray-500"
+                                    }`}>
                                     {day}
                                 </div>
                             ))}
@@ -95,6 +97,13 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     const dayEvent = monthEvents.find((e) => e.day === day);
                                                     const isSelected = selectedEvent?.id === dayEvent?.id;
 
+                                                    // Determine text color based on day of week (if no event)
+                                                    let dayTextColor = "text-gray-900";
+                                                    if (!dayEvent) {
+                                                        if (dayIndex === 0) dayTextColor = "text-red-600 font-semibold";
+                                                        else if (dayIndex === 2 || dayIndex === 4 || dayIndex === 6) dayTextColor = "text-green-600 font-semibold";
+                                                    }
+
                                                     return (
                                                         <div
                                                             key={dayIndex}
@@ -102,7 +111,7 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                             className={`flex-1 min-w-[32px] h-7 flex items-center justify-center text-xs rounded cursor-pointer transition-all relative
                                 ${dayEvent
                                                                     ? `${getEventTypeColor(dayEvent.category)} text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`
-                                                                    : `text-gray-900 ${theme.hoverBg}`
+                                                                    : `${dayTextColor} ${theme.hoverBg}`
                                                                 }`}
                                                         >
                                                             {day}
