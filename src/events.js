@@ -153,12 +153,12 @@ export function getMonthData(year, monthIndex) {
 export function getEventTypeColor(eventType) {
     const colorMap = {
         presentation: 'bg-red-600',
-        mission: 'bg-purple-600',
+        mission: 'bg-cyan-600',
         practice: 'bg-green-600',
         visit: 'bg-orange-600',
         worship: 'bg-blue-600',
         youth: 'bg-teal-600',
-        conference: 'bg-indigo-600',
+        conference: 'bg-sky-600',
         celebration: 'bg-pink-600',
         planning: 'bg-cyan-600',
         kids: 'bg-lime-600',
