@@ -98,12 +98,19 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     let isPracticeDay = !dayEvent && (dayIndex === 2 || dayIndex === 4 || dayIndex === 6);
                                                     let isPresentationDay = !dayEvent && dayIndex === 0;
 
-                                                    if (dayEvent) {
+                                                    // Highlight background only on Sun (0), Tue (2), Thu (4), Sat (6)
+                                                    const isHighlightDay = dayIndex === 0 || dayIndex === 2 || dayIndex === 4 || dayIndex === 6;
+
+                                                    if (dayEvent && isHighlightDay) {
                                                         cellStyle = `${getEventTypeColor(dayEvent.category)} text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`;
                                                     } else if (isPracticeDay) {
                                                         cellStyle = "bg-green-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
                                                     } else if (isPresentationDay) {
                                                         cellStyle = "bg-red-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
+                                                    } else {
+                                                        // No highlight days (Mon, Wed, Fri) or days with events that shouldn't be highlighted
+                                                        if (!dayEvent && dayIndex === 0) cellStyle = "text-red-600 font-semibold " + theme.hoverBg;
+                                                        else cellStyle = "text-gray-900 " + theme.hoverBg;
                                                     }
 
                                                     return (
@@ -113,11 +120,17 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                             className={`flex-1 min-w-[32px] h-7 flex items-center justify-center text-xs rounded cursor-pointer transition-all relative ${cellStyle}`}
                                                         >
                                                             {day}
+                                                            {/* Show dot if it's a practice/presentation day OR has an actual event */}
                                                             {(dayEvent || isPracticeDay || isPresentationDay) && (
-                                                                <div className={`absolute -top-1 -right-1 w-2 h-2 bg-white rounded-full border ${theme.monthEventDotBorder}`}></div>
+                                                                <div className={`absolute -top-1 -right-1 w-2 h-2 rounded-full border
+                                                                    ${(isPracticeDay || isPresentationDay || (dayEvent && isHighlightDay))
+                                                                        ? "bg-white border-white/50"
+                                                                        : `${getEventTypeColor(dayEvent.category)} border-white shadow-sm`}`}
+                                                                ></div>
                                                             )}
                                                         </div>
                                                     );
+
 
 
                                                 })}
