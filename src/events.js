@@ -137,6 +137,25 @@ export const events = [
     }
 ];
 
+// Month metadata
+export const ALL_MONTHS = [
+    { name: "January", abbr: "JAN", index: 0 },
+    { name: "February", abbr: "FEB", index: 1 },
+    { name: "March", abbr: "MAR", index: 2 },
+    { name: "April", abbr: "APR", index: 3 },
+    { name: "May", abbr: "MAY", index: 4 },
+    { name: "June", abbr: "JUN", index: 5 },
+    { name: "July", abbr: "JUL", index: 6 },
+    { name: "August", abbr: "AUG", index: 7 },
+    { name: "September", abbr: "SEP", index: 8 },
+    { name: "October", abbr: "OCT", index: 9 },
+    { name: "November", abbr: "NOV", index: 10 },
+    { name: "December", abbr: "DEC", index: 11 },
+];
+
+// Weekday names
+export const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 // Get month data for calendar display
 export function getMonthData(year, monthIndex) {
     const date = new Date(year, monthIndex, 1);
@@ -155,17 +174,18 @@ export function getEventTypeColor(eventType) {
         presentation: 'bg-red-600',
         mission: 'bg-cyan-600',
         practice: 'bg-green-600',
-        visit: 'bg-orange-600',
+        visit: 'bg-sky-500',
         worship: 'bg-blue-600',
         youth: 'bg-teal-600',
         conference: 'bg-sky-600',
         celebration: 'bg-pink-600',
         planning: 'bg-cyan-600',
         kids: 'bg-lime-600',
-        community: 'bg-amber-600',
+        community: 'bg-yellow-500',
         music: 'bg-rose-600',
         default: 'bg-gray-500'
     };
+
 
     return colorMap[eventType] || colorMap.default;
 }
@@ -173,9 +193,9 @@ export function getEventTypeColor(eventType) {
 // Get event type label
 export function getEventTypeLabel(eventType) {
     const labelMap = {
-        presentation: 'Presentation',
+        presentation: 'Church Presentation',
         mission: 'Mission',
-        practice: 'Practice',
+        practice: 'Choir Practice',
         visit: 'Visit',
         worship: 'Worship Service',
         youth: 'Youth Event',
@@ -189,3 +209,6 @@ export function getEventTypeLabel(eventType) {
 
     return labelMap[eventType] || eventType;
 }
+
+
+
