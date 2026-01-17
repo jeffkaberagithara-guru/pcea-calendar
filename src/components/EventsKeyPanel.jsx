@@ -22,10 +22,10 @@ import {
 
 function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
   const eventTypes = [
-    { type: 'presentation', color: 'bg-red-500', icon: <AlertCircle className="w-3 h-3" />, label: 'Presentation' },
-    { type: 'mission', color: 'bg-purple-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission' },
-    { type: 'practice', color: 'bg-green-500', icon: <CheckCircle className="w-3 h-3" />, label: 'Practice' },
-    { type: 'visit', color: 'bg-orange-500', icon: <Users className="w-3 h-3" />, label: 'Visit' },
+    { type: 'presentation', color: 'bg-red-500', icon: <AlertCircle className="w-3 h-3" />, label: 'Church Presentation' },
+    { type: 'mission', color: 'bg-cyan-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission' },
+    { type: 'practice', color: 'bg-green-500', icon: <CheckCircle className="w-3 h-3" />, label: 'Choir Practice' },
+    { type: 'visit', color: 'bg-sky-500', icon: <Users className="w-3 h-3" />, label: 'Visit' },
     { type: 'worship', color: 'bg-blue-500', icon: <Star className="w-3 h-3" />, label: 'Worship' },
     { type: 'youth', color: 'bg-teal-500', icon: <TrendingUp className="w-3 h-3" />, label: 'Youth' },
   ];
@@ -151,13 +151,13 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
               <span className="text-sm text-gray-700">Q1 Events</span>
               <span className="font-bold text-emerald-600">{events.filter(e => e.month >= 1 && e.month <= 4).length}</span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-amber-50 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-rose-50 rounded-lg">
               <span className="text-sm text-gray-700">Q2 Events</span>
-              <span className="font-bold text-amber-600">{events.filter(e => e.month >= 5 && e.month <= 8).length}</span>
+              <span className="font-bold text-rose-600">{events.filter(e => e.month >= 5 && e.month <= 8).length}</span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+            <div className="flex justify-between items-center p-3 bg-pink-50 rounded-lg">
               <span className="text-sm text-gray-700">Q3 Events</span>
-              <span className="font-bold text-orange-600">{events.filter(e => e.month >= 9 && e.month <= 12).length}</span>
+              <span className="font-bold text-pink-600">{events.filter(e => e.month >= 9 && e.month <= 12).length}</span>
             </div>
           </div>
           <div className="mt-6 pt-4 border-t border-gray-100">
