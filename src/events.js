@@ -171,18 +171,18 @@ export function getMonthData(year, monthIndex) {
 // Get color for event type
 export function getEventTypeColor(eventType) {
     const colorMap = {
-        presentation: 'bg-red-600',
-        mission: 'bg-cyan-600',
-        practice: 'bg-green-600',
-        visit: 'bg-sky-500',
+        presentation: 'bg-rose-500',
+        mission: 'bg-indigo-500',
+        practice: 'bg-emerald-500',
+        visit: 'bg-amber-500',
         worship: 'bg-blue-600',
-        youth: 'bg-teal-600',
-        conference: 'bg-sky-600',
-        celebration: 'bg-pink-600',
-        planning: 'bg-cyan-600',
-        kids: 'bg-lime-600',
-        community: 'bg-yellow-500',
-        music: 'bg-rose-600',
+        youth: 'bg-violet-600',
+        conference: 'bg-cyan-500',
+        celebration: 'bg-fuchsia-500',
+        planning: 'bg-slate-600',
+        kids: 'bg-lime-500',
+        community: 'bg-orange-600',
+        music: 'bg-teal-500',
         default: 'bg-gray-500'
     };
 
