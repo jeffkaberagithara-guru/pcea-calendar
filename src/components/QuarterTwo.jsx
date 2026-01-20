@@ -103,7 +103,9 @@ function QuarterTwo({ events, onEventSelect, selectedEvent }) {
                                                     // Highlight background only on Sun (0), Tue (2), Thu (4), Sat (6)
                                                     const isHighlightDay = dayIndex === 0 || dayIndex === 2 || dayIndex === 4 || dayIndex === 6;
 
-                                                    if (dayEvent && isHighlightDay) {
+                                                    if (dayIndex === 2 || dayIndex === 4) {
+                                                        cellStyle = `bg-green-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`;
+                                                    } else if (dayEvent && isHighlightDay) {
                                                         cellStyle = `${getEventTypeColor(dayEvent.category)} text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`;
                                                     } else if (isPracticeDay) {
                                                         cellStyle = "bg-green-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
