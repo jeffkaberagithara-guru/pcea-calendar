@@ -28,11 +28,17 @@ function QuarterThree({ events, onEventSelect, selectedEvent }) {
                     <h2 className="text-lg font-semibold text-white">{title}</h2>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button className="p-1 text-white/80 hover:text-white">
+                    <button
+                        onClick={() => alert("Previous month period")}
+                        className="p-1 text-white/80 hover:text-white transition-all active:scale-90 bg-white/10 hover:bg-white/20 rounded"
+                    >
                         <ChevronLeft className="w-4 h-4" />
                     </button>
-                    <span className="text-sm text-white/90">{subTitle}</span>
-                    <button className="p-1 text-white/80 hover:text-white">
+                    <span className="text-sm text-white/90 font-medium px-2">{subTitle}</span>
+                    <button
+                        onClick={() => alert("Next month period")}
+                        className="p-1 text-white/80 hover:text-white transition-all active:scale-90 bg-white/10 hover:bg-white/20 rounded"
+                    >
                         <ChevronRight className="w-4 h-4" />
                     </button>
                 </div>
