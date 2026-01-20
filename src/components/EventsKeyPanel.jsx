@@ -20,7 +20,7 @@ import {
   ChevronRight
 } from 'react-feather';
 
-function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
+function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFilterChange }) {
   const eventTypes = [
     { type: 'presentation', color: 'bg-rose-500', icon: <AlertCircle className="w-3 h-3" />, label: 'Church Presentation' },
     { type: 'mission', color: 'bg-indigo-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission' },
@@ -36,13 +36,18 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
     eventCounts[event.category] = (eventCounts[event.category] || 0) + 1;
   });
 
-  // Get events for this week
+  // Get events for this week, respecting active filters
   const thisWeekEvents = events.filter(event => {
     const eventDate = new Date(2026, event.month - 1, event.day);
     const today = new Date();
     const nextWeek = new Date(today);
     nextWeek.setDate(today.getDate() + 7);
-    return eventDate >= today && eventDate <= nextWeek;
+
+    // Filter by date AND category if filtering is active
+    const isThisWeek = eventDate >= today && eventDate <= nextWeek;
+    const matchesFilter = filterType === 'all' || event.category === filterType;
+
+    return isThisWeek && matchesFilter;
   }).slice(0, 5);
 
   return (
@@ -54,30 +59,41 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
             <Filter className="w-4 h-4" />
             Event Legend
           </h3>
-          <button className="p-1 text-gray-400 hover:text-gray-600">
-            <Eye className="w-4 h-4" />
+          <button
+            onClick={() => onFilterChange(filterType === 'all' ? 'none' : 'all')}
+            className="p-1 text-gray-400 hover:text-gray-600 transition-colors active:scale-90"
+            title={filterType === 'all' ? "Hide all" : "Show all"}
+          >
+            {filterType === 'all' ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
           </button>
         </div>
         <div className="space-y-3">
           {eventTypes.map((eventType) => (
-            <div key={eventType.type} className="flex items-center justify-between group hover:bg-gray-50 p-2 rounded-lg">
+            <button
+              key={eventType.type}
+              onClick={() => onFilterChange(filterType === eventType.type ? 'all' : eventType.type)}
+              className={`w-full flex items-center justify-between group p-2 rounded-lg transition-all active:scale-[0.98] ${filterType === eventType.type ? "bg-indigo-50 ring-1 ring-indigo-200 shadow-sm" : "hover:bg-gray-50"}`}
+            >
               <div className="flex items-center gap-3">
-                <div className={`w-6 h-6 rounded-md flex items-center justify-center ${eventType.color} text-white`}>
+                <div className={`w-6 h-6 rounded-md flex items-center justify-center ${eventType.color} text-white shadow-sm`}>
                   {eventType.icon}
                 </div>
-                <span className="text-sm font-medium text-gray-700">{eventType.label}</span>
+                <span className={`text-sm font-medium ${filterType === eventType.type ? "text-indigo-700" : "text-gray-700"}`}>{eventType.label}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                <span className={`text-sm px-2 py-1 rounded ${filterType === eventType.type ? "bg-indigo-100 text-indigo-700 font-bold" : "bg-gray-100 text-gray-500"}`}>
                   {eventCounts[eventType.type] || 0}
                 </span>
-                <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-400" />
+                <ChevronRight className={`w-4 h-4 transition-transform ${filterType === eventType.type ? "text-indigo-400 translate-x-1" : "text-gray-300 group-hover:text-gray-400"}`} />
               </div>
-            </div>
+            </button>
           ))}
         </div>
         <div className="mt-4 pt-4 border-t border-gray-100">
-          <button className="w-full py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+          <button
+            onClick={() => alert("Downloading legend options...")}
+            className="w-full py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-all active:scale-95 flex items-center justify-center gap-2 font-medium"
+          >
             <Download className="w-4 h-4" />
             Export Legend
           </button>
@@ -119,17 +135,23 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
 
               <div className="flex items-center gap-3 text-sm">
                 <Clock className="w-4 h-4 text-gray-400" />
-                <span className="text-gray-700">
+                <span className="text-gray-700 font-medium">
                   {selectedEvent.time || "All Day"}
                 </span>
               </div>
             </div>
 
             <div className="flex gap-2">
-              <button className="flex-1 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              <button
+                onClick={() => alert(`Opening editor for: ${selectedEvent.title}`)}
+                className="flex-1 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all active:scale-95 font-medium shadow-sm shadow-indigo-200"
+              >
                 Edit Event
               </button>
-              <button className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+              <button
+                onClick={() => alert("Sharing options opened.")}
+                className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all active:scale-95 font-medium"
+              >
                 <Share2 className="w-4 h-4 inline mr-2" />
                 Share
               </button>
@@ -205,7 +227,10 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
           )}
         </div>
         <div className="mt-4 pt-4 border-t border-gray-100">
-          <button className="w-full py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors">
+          <button
+            onClick={() => alert("Showing full upcoming events list...")}
+            className="w-full py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-all active:scale-95 font-medium"
+          >
             View All Upcoming Events
           </button>
         </div>
