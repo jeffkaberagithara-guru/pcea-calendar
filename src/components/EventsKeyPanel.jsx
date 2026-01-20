@@ -22,12 +22,12 @@ import {
 
 function EventsKeyPanel({ events, selectedEvent, onEventSelect }) {
   const eventTypes = [
-    { type: 'presentation', color: 'bg-red-500', icon: <AlertCircle className="w-3 h-3" />, label: 'Church Presentation' },
-    { type: 'mission', color: 'bg-cyan-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission' },
-    { type: 'practice', color: 'bg-green-500', icon: <CheckCircle className="w-3 h-3" />, label: 'Choir Practice' },
-    { type: 'visit', color: 'bg-sky-500', icon: <Users className="w-3 h-3" />, label: 'Visit' },
-    { type: 'worship', color: 'bg-blue-500', icon: <Star className="w-3 h-3" />, label: 'Worship' },
-    { type: 'youth', color: 'bg-teal-500', icon: <TrendingUp className="w-3 h-3" />, label: 'Youth' },
+    { type: 'presentation', color: 'bg-rose-500', icon: <AlertCircle className="w-3 h-3" />, label: 'Church Presentation' },
+    { type: 'mission', color: 'bg-indigo-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission' },
+    { type: 'practice', color: 'bg-emerald-500', icon: <CheckCircle className="w-3 h-3" />, label: 'Choir Practice' },
+    { type: 'visit', color: 'bg-amber-500', icon: <Users className="w-3 h-3" />, label: 'Visit' },
+    { type: 'worship', color: 'bg-blue-600', icon: <Star className="w-3 h-3" />, label: 'Worship' },
+    { type: 'youth', color: 'bg-violet-600', icon: <TrendingUp className="w-3 h-3" />, label: 'Youth' },
   ];
 
   // Count events by type
