@@ -116,7 +116,7 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     }
 
                                                     if (isSelected) {
-                                                        cellStyle += " ring-2 ring-blue-500 scale-110 z-10";
+                                                        cellStyle += " scale-110 z-10";
                                                     }
 
                                                     return (
