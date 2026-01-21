@@ -104,7 +104,7 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     let isPresentationDay = !dayEvent && dayIndex === 0;
                                                     const isHighlightDay = dayIndex === 0 || dayIndex === 2 || dayIndex === 4 || dayIndex === 6;
 
-                                                    let cellBase = "w-8 h-8 flex items-center justify-center text-xs rounded-full cursor-pointer transition-all duration-200 relative";
+                                                    let cellBase = "w-6 h-6 flex items-center justify-center text-xs rounded-full cursor-pointer transition-all duration-200 relative";
                                                     let cellStyle = theme.hoverBg + " text-gray-900";
 
                                                     if (dayIndex === 2 || dayIndex === 4 || dayIndex === 6 || isPracticeDay) {
@@ -116,7 +116,7 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     }
 
                                                     if (isSelected) {
-                                                        cellStyle += " ring-2 ring-blue-400 ring-offset-2 scale-110 z-10";
+                                                        cellStyle += " ring-2 ring-blue-500 scale-110 z-10";
                                                     }
 
                                                     return (
@@ -127,7 +127,7 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                             >
                                                                 {day}
                                                                 {(dayEvent || isPracticeDay || isPresentationDay) && (
-                                                                    <div className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-white
+                                                                    <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border border-white
                                                                     ${(isPracticeDay || isPresentationDay || (dayEvent && isHighlightDay))
                                                                             ? "bg-white"
                                                                             : `${getEventTypeColor(dayEvent.category)}`}`}
