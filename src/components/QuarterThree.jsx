@@ -126,13 +126,6 @@ function QuarterThree({ events, onEventSelect, selectedEvent }) {
                                                                 className={`${cellBase} ${cellStyle}`}
                                                             >
                                                                 {day}
-                                                                {(dayEvent || isPracticeDay || isPresentationDay) && (
-                                                                    <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border border-white
-                                                                    ${(isPracticeDay || isPresentationDay || (dayEvent && isHighlightDay))
-                                                                            ? "bg-white"
-                                                                            : `${getEventTypeColor(dayEvent.category)}`}`}
-                                                                    ></div>
-                                                                )}
                                                             </div>
                                                         </div>
                                                     );
