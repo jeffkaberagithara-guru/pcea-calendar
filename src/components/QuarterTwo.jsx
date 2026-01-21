@@ -100,49 +100,42 @@ function QuarterTwo({ events, onEventSelect, selectedEvent }) {
                                                     const isSelected = selectedEvent?.id === dayEvent?.id;
 
                                                     // Determine styling based on day of week and events
-                                                    let cellStyle = theme.hoverBg;
                                                     let isPracticeDay = !dayEvent && (dayIndex === 2 || dayIndex === 4 || dayIndex === 6);
                                                     let isPresentationDay = !dayEvent && dayIndex === 0;
-
-
-
-                                                    // Highlight background only on Sun (0), Tue (2), Thu (4), Sat (6)
                                                     const isHighlightDay = dayIndex === 0 || dayIndex === 2 || dayIndex === 4 || dayIndex === 6;
 
-                                                    if (dayIndex === 2 || dayIndex === 4) {
-                                                        cellStyle = `bg-green-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`;
+                                                    let cellBase = "w-8 h-8 flex items-center justify-center text-xs rounded-full cursor-pointer transition-all duration-200 relative";
+                                                    let cellStyle = theme.hoverBg + " text-gray-900";
+
+                                                    if (dayIndex === 2 || dayIndex === 4 || dayIndex === 6 || isPracticeDay) {
+                                                        cellStyle = `bg-green-600 text-white font-medium shadow-sm hover:bg-green-700 hover:scale-110`;
+                                                    } else if (isPresentationDay || (dayIndex === 0 && !dayEvent)) {
+                                                        cellStyle = `bg-red-600 text-white font-medium shadow-sm hover:bg-red-700 hover:scale-110`;
                                                     } else if (dayEvent && isHighlightDay) {
-                                                        cellStyle = `${getEventTypeColor(dayEvent.category)} text-white font-medium ring-2 ring-offset-1 ring-offset-white ${isSelected ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"}`;
-                                                    } else if (isPracticeDay) {
-                                                        cellStyle = "bg-green-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
-                                                    } else if (isPresentationDay) {
-                                                        cellStyle = "bg-red-600 text-white font-medium ring-2 ring-offset-1 ring-offset-white ring-transparent hover:ring-white/50";
-                                                    } else {
-                                                        // No highlight days (Mon, Wed, Fri) or days with events that shouldn't be highlighted
-                                                        if (!dayEvent && dayIndex === 0) cellStyle = "text-red-600 font-semibold " + theme.hoverBg;
-                                                        else cellStyle = "text-gray-900 " + theme.hoverBg;
+                                                        cellStyle = `${getEventTypeColor(dayEvent.category)} text-white font-medium shadow-sm hover:opacity-90 hover:scale-110`;
+                                                    }
+
+                                                    if (isSelected) {
+                                                        cellStyle += " ring-2 ring-blue-400 ring-offset-2 scale-110 z-10";
                                                     }
 
                                                     return (
-                                                        <div
-                                                            key={dayIndex}
-                                                            onClick={() => (dayEvent || isPracticeDay || isPresentationDay) && onEventSelect(isSelected ? null : (dayEvent || (isPracticeDay ? { title: "Choir Practice", description: "Regular midweek choir practice session", category: "practice", time: "6:00 PM" } : { title: "Church Presentation", description: "Sunday morning church presentation", category: "presentation", time: "10:00 AM" })))}
-                                                            className={`flex-1 min-w-[32px] h-7 flex items-center justify-center text-xs rounded cursor-pointer transition-all relative ${cellStyle}`}
-                                                        >
-                                                            {day}
-                                                            {/* Show dot if it's a practice/presentation day OR has an actual event */}
-                                                            {(dayEvent || isPracticeDay || isPresentationDay) && (
-                                                                <div className={`absolute -top-1 -right-1 w-2 h-2 rounded-full border
+                                                        <div key={dayIndex} className="flex-1 flex justify-center">
+                                                            <div
+                                                                onClick={() => (dayEvent || isPracticeDay || isPresentationDay) && onEventSelect(isSelected ? null : (dayEvent || (isPracticeDay ? { title: "Choir Practice", description: "Regular midweek choir practice session", category: "practice", time: "6:00 PM" } : { title: "Church Presentation", description: "Sunday morning church presentation", category: "presentation", time: "10:00 AM" })))}
+                                                                className={`${cellBase} ${cellStyle}`}
+                                                            >
+                                                                {day}
+                                                                {(dayEvent || isPracticeDay || isPresentationDay) && (
+                                                                    <div className={`absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2 border-white
                                                                     ${(isPracticeDay || isPresentationDay || (dayEvent && isHighlightDay))
-                                                                        ? "bg-white border-white/50"
-                                                                        : `${getEventTypeColor(dayEvent.category)} border-white shadow-sm`}`}
-                                                                ></div>
-                                                            )}
+                                                                            ? "bg-white"
+                                                                            : `${getEventTypeColor(dayEvent.category)}`}`}
+                                                                    ></div>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                     );
-
-
-
                                                 })}
                                             </div>
                                         ))}
