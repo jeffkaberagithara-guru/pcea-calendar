@@ -5,7 +5,8 @@ import {
   Activity,
   Info,
   Settings,
-  Bell
+  Bell,
+  ArrowUp
 } from 'react-feather';
 import QuarterOne from './components/QuarterOne';
 import QuarterTwo from './components/QuarterTwo';
@@ -19,6 +20,21 @@ function App() {
   const [notificationCount, setNotificationCount] = useState(3);
   const [isExporting, setIsExporting] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   // Filter events based on selection
   const filteredEvents = filterType === 'all'
@@ -29,8 +45,8 @@ function App() {
     setIsExporting(true);
     setTimeout(() => {
       setIsExporting(false);
-      alert("Calendar exported successfully as PDF!");
-    }, 1500);
+      showToast("Calendar exported successfully as PDF!", "success");
+    }, 2000);
   };
 
   const clearFilters = () => {
@@ -61,7 +77,7 @@ function App() {
               <button
                 onClick={() => {
                   setNotificationCount(0);
-                  alert("You have no new notifications.");
+                  showToast("Notifications marked as read", "info");
                 }}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95 relative"
               >
@@ -71,13 +87,13 @@ function App() {
                 )}
               </button>
               <button
-                onClick={() => alert("Activity Feed coming soon!")}
+                onClick={() => showToast("Activity Feed is currently empty", "info")}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95"
               >
                 <Activity className="w-5 h-5" />
               </button>
               <button
-                onClick={() => alert("Settings panel opened.")}
+                onClick={() => showToast("Settings panel coming soon!", "info")}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95"
               >
                 <Settings className="w-5 h-5" />
@@ -97,10 +113,11 @@ function App() {
               onClick={() => {
                 document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all active:scale-95 shadow-sm"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100 flex items-center gap-2 group relative overflow-hidden"
             >
-              <Info className="w-4 h-4 inline mr-2" />
-              View All Events
+              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
+              <Info className="w-4 h-4" />
+              <span>View All Events</span>
             </button>
             <div className="relative">
               <button
@@ -181,6 +198,30 @@ function App() {
           </div>
         </div>
       </div>
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed bottom-8 right-8 px-5 py-3 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-right-4 duration-300 flex items-center gap-3 backdrop-blur-md border border-white/20 ${toast.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-indigo-600 text-white'
+          }`}>
+          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+            {toast.type === 'success' ? <div className="w-2.5 h-2.5 bg-white rounded-full animate-pulse" /> : <Info className="w-4 h-4 text-white" />}
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold tracking-tight">{toast.type === 'success' ? 'Success' : 'Notice'}</span>
+            <span className="text-xs opacity-90">{toast.message}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 left-8 p-3 bg-white text-gray-900 rounded-full shadow-2xl border border-gray-100 hover:bg-gray-50 transition-all active:scale-90 z-[90] animate-in fade-in zoom-in duration-300"
+          title="Back to Top"
+        >
+          <ArrowUp className="w-5 h-5" />
+        </button>
+      )}
     </main>
   );
 }
