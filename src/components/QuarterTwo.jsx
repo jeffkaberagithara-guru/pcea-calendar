@@ -21,7 +21,7 @@ function QuarterTwo({ events, onEventSelect, selectedEvent }) {
     };
 
     return (
-        <div className="rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm mb-6">
+        <div id="quarter-two" className="quarter-container rounded-xl border border-gray-200 bg-white overflow-hidden shadow-sm mb-6 scroll-mt-6">
             <div className={`px-4 py-3 flex items-center justify-between ${theme.headerGradient}`}>
                 <div className="flex items-center gap-3">
                     <Sun className="w-5 h-5 text-white" />
@@ -29,15 +29,23 @@ function QuarterTwo({ events, onEventSelect, selectedEvent }) {
                 </div>
                 <div className="flex items-center gap-2">
                     <button
-                        onClick={() => alert("Previous month period")}
+                        onClick={() => {
+                            const prevQuarter = document.getElementById('quarter-one');
+                            prevQuarter?.scrollIntoView({ behavior: 'smooth' });
+                        }}
                         className="p-1 text-white/80 hover:text-white transition-all active:scale-90 bg-white/10 hover:bg-white/20 rounded"
+                        title="View Quarter 1"
                     >
                         <ChevronLeft className="w-4 h-4" />
                     </button>
                     <span className="text-sm text-white/90 font-medium px-2">{subTitle}</span>
                     <button
-                        onClick={() => alert("Next month period")}
+                        onClick={() => {
+                            const nextQuarter = document.getElementById('quarter-three');
+                            nextQuarter?.scrollIntoView({ behavior: 'smooth' });
+                        }}
                         className="p-1 text-white/80 hover:text-white transition-all active:scale-90 bg-white/10 hover:bg-white/20 rounded"
+                        title="View Quarter 3"
                     >
                         <ChevronRight className="w-4 h-4" />
                     </button>
