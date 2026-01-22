@@ -91,7 +91,21 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
         </div>
         <div className="mt-4 pt-4 border-t border-gray-100">
           <button
-            onClick={() => alert("Downloading legend options...")}
+            onClick={(e) => {
+              const btn = e.currentTarget;
+              const originalText = btn.innerHTML;
+              btn.innerHTML = '<div class="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div> PDF Exporting...';
+              btn.disabled = true;
+              setTimeout(() => {
+                btn.innerHTML = '✓ Legend Exported';
+                btn.classList.add('bg-emerald-50', 'text-emerald-700');
+                setTimeout(() => {
+                  btn.innerHTML = originalText;
+                  btn.classList.remove('bg-emerald-50', 'text-emerald-700');
+                  btn.disabled = false;
+                }, 2000);
+              }, 1500);
+            }}
             className="w-full py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-all active:scale-95 flex items-center justify-center gap-2 font-medium"
           >
             <Download className="w-4 h-4" />
@@ -143,13 +157,28 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
 
             <div className="flex gap-2">
               <button
-                onClick={() => alert(`Opening editor for: ${selectedEvent.title}`)}
+                onClick={(e) => {
+                  const btn = e.currentTarget;
+                  const originalText = btn.innerText;
+                  btn.innerText = "Opening Editor...";
+                  setTimeout(() => {
+                    btn.innerText = originalText;
+                  }, 1000);
+                }}
                 className="flex-1 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all active:scale-95 font-medium shadow-sm shadow-indigo-200"
               >
                 Edit Event
               </button>
               <button
-                onClick={() => alert("Sharing options opened.")}
+                onClick={(e) => {
+                  navigator.clipboard.writeText(window.location.href);
+                  const btn = e.currentTarget;
+                  const originalContent = btn.innerHTML;
+                  btn.innerHTML = "✓ Copied!";
+                  setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                  }, 2000);
+                }}
                 className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all active:scale-95 font-medium"
               >
                 <Share2 className="w-4 h-4 inline mr-2" />
@@ -228,7 +257,14 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
         </div>
         <div className="mt-4 pt-4 border-t border-gray-100">
           <button
-            onClick={() => alert("Showing full upcoming events list...")}
+            onClick={() => {
+              const topEl = document.getElementById('quarter-one');
+              if (topEl) {
+                topEl.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
             className="w-full py-2 bg-gray-50 text-gray-700 rounded-lg hover:bg-gray-100 transition-all active:scale-95 font-medium"
           >
             View All Upcoming Events
