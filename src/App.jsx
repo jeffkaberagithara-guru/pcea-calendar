@@ -76,10 +76,12 @@ function App() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => {
+                  document.getElementById('upcoming-events')?.scrollIntoView({ behavior: 'smooth' });
                   setNotificationCount(0);
-                  showToast("Notifications marked as read", "info");
+                  showToast("Navigated to Upcoming Events", "info");
                 }}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95 relative"
+                title="Notifications"
               >
                 <Bell className="w-5 h-5" />
                 {notificationCount > 0 && (
@@ -87,24 +89,25 @@ function App() {
                 )}
               </button>
               <button
-                onClick={() => showToast("Activity Feed is currently empty", "info")}
+                onClick={() => {
+                  document.getElementById('calendar-stats')?.scrollIntoView({ behavior: 'smooth' });
+                  showToast("Viewing Calendar Statistics", "info");
+                }}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95"
+                title="Activity & Stats"
               >
                 <Activity className="w-5 h-5" />
               </button>
               <button
-                onClick={() => showToast("Settings panel coming soon!", "info")}
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  showToast("Settings panel coming soon!", "info");
+                }}
                 className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95"
+                title="Settings"
               >
                 <Settings className="w-5 h-5" />
               </button>
-              <div className="h-6 w-px bg-gray-300"></div>
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
-                  <Users className="w-4 h-4 text-indigo-600" />
-                </div>
-                <span className="text-sm font-medium text-gray-700">Admin</span>
-              </div>
             </div>
           </div>
 
