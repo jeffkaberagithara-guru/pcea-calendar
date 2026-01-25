@@ -54,8 +54,15 @@ function App() {
     setShowFilters(false);
   };
 
-  // Note: Quarters configuration is now handled within individual components
-  // QuarterOne, QuarterTwo, QuarterThree
+  // Scroll to events panel when an event is selected
+  const handleEventSelect = (event) => {
+    setSelectedEvent(event);
+    if (event) {
+      setTimeout(() => {
+        document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 p-4 md:p-8">
@@ -175,17 +182,17 @@ function App() {
           <div className="flex-1 space-y-6">
             <QuarterOne
               events={filteredEvents}
-              onEventSelect={setSelectedEvent}
+              onEventSelect={handleEventSelect}
               selectedEvent={selectedEvent}
             />
             <QuarterTwo
               events={filteredEvents}
-              onEventSelect={setSelectedEvent}
+              onEventSelect={handleEventSelect}
               selectedEvent={selectedEvent}
             />
             <QuarterThree
               events={filteredEvents}
-              onEventSelect={setSelectedEvent}
+              onEventSelect={handleEventSelect}
               selectedEvent={selectedEvent}
             />
           </div>
@@ -194,7 +201,7 @@ function App() {
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
-              onEventSelect={setSelectedEvent}
+              onEventSelect={handleEventSelect}
               filterType={filterType}
               onFilterChange={setFilterType}
             />
