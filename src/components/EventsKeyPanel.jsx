@@ -22,12 +22,12 @@ import {
 
 function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFilterChange }) {
   const eventTypes = [
-    { type: 'presentation', color: 'bg-rose-500', icon: <AlertCircle className="w-3 h-3" />, label: 'Church Presentation' },
-    { type: 'mission', color: 'bg-indigo-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission' },
-    { type: 'practice', color: 'bg-emerald-500', icon: <CheckCircle className="w-3 h-3" />, label: 'Choir Practice' },
-    { type: 'visit', color: 'bg-amber-500', icon: <Users className="w-3 h-3" />, label: 'Visit' },
-    { type: 'worship', color: 'bg-blue-600', icon: <Star className="w-3 h-3" />, label: 'Worship' },
-    { type: 'youth', color: 'bg-violet-600', icon: <TrendingUp className="w-3 h-3" />, label: 'Youth' },
+    { type: 'presentation', color: 'bg-red-600', icon: <AlertCircle className="w-3 h-3" />, label: 'Church Presentation', description: 'Special presentations by church groups and ministries during services.' },
+    { type: 'mission', color: 'bg-indigo-500', icon: <MapPin className="w-3 h-3" />, label: 'Mission', description: 'Outreach programs, field work, and mission trips to spread the gospel.' },
+    { type: 'practice', color: 'bg-emerald-500', icon: <CheckCircle className="w-3 h-3" />, label: 'Choir Practice', description: 'Regular weekly rehearsals for the church choir and worship team preparation.' },
+    { type: 'visit', color: 'bg-amber-500', icon: <Users className="w-3 h-3" />, label: 'Visit', description: 'Pastoral visits, home fellowships, and community outreach events.' },
+    { type: 'worship', color: 'bg-blue-600', icon: <Star className="w-3 h-3" />, label: 'Worship', description: 'Regular Sunday services, prayer meetings, and special worship gatherings.' },
+    { type: 'youth', color: 'bg-violet-600', icon: <TrendingUp className="w-3 h-3" />, label: 'Youth', description: 'Activities, retreats, and fellowship events specifically for the youth ministry.' },
   ];
 
   // Count events by type
@@ -60,7 +60,10 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
             Event Legend
           </h3>
           <button
-            onClick={() => onFilterChange(filterType === 'all' ? 'none' : 'all')}
+            onClick={() => {
+              onFilterChange(filterType === 'all' ? 'none' : 'all');
+              onEventSelect(null);
+            }}
             className="p-1 text-gray-400 hover:text-gray-600 transition-colors active:scale-90"
             title={filterType === 'all' ? "Hide all" : "Show all"}
           >
@@ -71,7 +74,23 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
           {eventTypes.map((eventType) => (
             <button
               key={eventType.type}
-              onClick={() => onFilterChange(filterType === eventType.type ? 'all' : eventType.type)}
+              onClick={() => {
+                const newFilter = filterType === eventType.type ? 'all' : eventType.type;
+                onFilterChange(newFilter);
+                if (newFilter !== 'all') {
+                  onEventSelect({
+                    title: eventType.label,
+                    description: eventType.description,
+                    category: eventType.type,
+                    type: eventType.type,
+                    time: "Various Times",
+                    month: "2026",
+                    day: "Year-round"
+                  });
+                } else {
+                  onEventSelect(null);
+                }
+              }}
               className={`w-full flex items-center justify-between group p-2 rounded-lg transition-all active:scale-[0.98] ${filterType === eventType.type ? "bg-indigo-50 ring-1 ring-indigo-200 shadow-sm" : "hover:bg-gray-50"}`}
             >
               <div className="flex items-center gap-3">
