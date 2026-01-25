@@ -130,7 +130,27 @@ function QuarterThree({ events, onEventSelect, selectedEvent }) {
                                                     return (
                                                         <div key={dayIndex} className="flex-1 flex justify-center">
                                                             <div
-                                                                onClick={() => (dayEvent || isPracticeDay || isPresentationDay) && onEventSelect(isSelected ? null : (dayEvent || (isPracticeDay ? { title: "Choir Practice", description: "Regular midweek choir practice session", category: "practice", time: "6:00 PM" } : { title: "Church Presentation", description: "Sunday morning church presentation", category: "presentation", time: "10:00 AM" })))}
+                                                                onClick={() => {
+                                                                    if (dayEvent || isPracticeDay || isPresentationDay) {
+                                                                        if (isSelected) {
+                                                                            onEventSelect(null);
+                                                                        } else if (dayEvent) {
+                                                                            onEventSelect(dayEvent);
+                                                                        } else {
+                                                                            onEventSelect({
+                                                                                id: `generic-${month.index}-${day}`,
+                                                                                title: isPracticeDay ? "Choir Practice" : "Church Presentation",
+                                                                                description: isPracticeDay ? "Regular midweek choir practice session" : "Sunday morning church presentation",
+                                                                                category: isPracticeDay ? "practice" : "presentation",
+                                                                                type: isPracticeDay ? "practice" : "presentation",
+                                                                                time: isPracticeDay ? "6:00 PM" : "10:00 AM",
+                                                                                month: month.index + 1,
+                                                                                day: day,
+                                                                                year: year
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                }}
                                                                 className={`${cellBase} ${cellStyle}`}
                                                             >
                                                                 {day}
