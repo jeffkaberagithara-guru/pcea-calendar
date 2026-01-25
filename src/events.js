@@ -28,15 +28,6 @@ export const events = [
         category: "practice"
     },
     {
-        id: 4,
-        title: "Women's Day Celebration",
-        description: "Special service celebrating women",
-        month: 3,
-        day: 8,
-        type: "celebration",
-        category: "presentation"
-    },
-    {
         id: 5,
         title: "Easter Service",
         description: "Resurrection Sunday celebration",
@@ -171,7 +162,7 @@ export function getMonthData(year, monthIndex) {
 // Get color for event type
 export function getEventTypeColor(eventType) {
     const colorMap = {
-        presentation: 'bg-rose-500',
+        presentation: 'bg-red-600',
         mission: 'bg-indigo-500',
         practice: 'bg-emerald-500',
         visit: 'bg-amber-500',
