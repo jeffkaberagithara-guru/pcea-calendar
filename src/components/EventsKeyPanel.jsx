@@ -188,7 +188,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div id="calendar-stats" className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm scroll-mt-24">
           <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4">
             <BarChart className="w-4 h-4" />
             Calendar Statistics
@@ -221,7 +221,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
       )}
 
       {/* Upcoming Events */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div id="upcoming-events" className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm scroll-mt-24">
         <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4">
           <Clock className="w-4 h-4" />
           Upcoming This Week
