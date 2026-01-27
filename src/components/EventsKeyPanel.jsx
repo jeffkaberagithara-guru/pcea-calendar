@@ -79,6 +79,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
                 onFilterChange(newFilter);
                 if (newFilter !== 'all') {
                   onEventSelect({
+                    id: `legend-${eventType.type}`,
                     title: eventType.label,
                     description: eventType.description,
                     category: eventType.type,
