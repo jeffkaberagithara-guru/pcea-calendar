@@ -51,7 +51,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
   }).slice(0, 5);
 
   return (
-    <div className="w-full xl:w-80 space-y-6">
+    <div className="w-full lg:w-80 space-y-6">
       {/* Event Key */}
       <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
@@ -207,35 +207,14 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
           </div>
         </div>
       ) : (
-        <div id="calendar-stats" className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm scroll-mt-24">
-          <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4">
-            <BarChart className="w-4 h-4" />
-            Calendar Statistics
-          </h3>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-              <span className="text-sm text-gray-700">Total Events</span>
-              <span className="font-bold text-blue-600">{events.length}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-emerald-50 rounded-lg">
-              <span className="text-sm text-gray-700">Q1 Events</span>
-              <span className="font-bold text-emerald-600">{events.filter(e => e.month >= 1 && e.month <= 4).length}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-rose-50 rounded-lg">
-              <span className="text-sm text-gray-700">Q2 Events</span>
-              <span className="font-bold text-rose-600">{events.filter(e => e.month >= 5 && e.month <= 8).length}</span>
-            </div>
-            <div className="flex justify-between items-center p-3 bg-pink-50 rounded-lg">
-              <span className="text-sm text-gray-700">Q3 Events</span>
-              <span className="font-bold text-pink-600">{events.filter(e => e.month >= 9 && e.month <= 12).length}</span>
-            </div>
+        <div id="event-details-placeholder" className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm scroll-mt-24 h-64 flex flex-col items-center justify-center text-center">
+          <div className="p-3 bg-gray-50 rounded-full mb-3">
+            <Info className="w-6 h-6 text-gray-400" />
           </div>
-          <div className="mt-6 pt-4 border-t border-gray-100">
-            <p className="text-sm text-gray-500 flex items-center gap-2">
-              <Info className="w-4 h-4" />
-              Click on any event in the calendar to view details
-            </p>
-          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">Event Details</h3>
+          <p className="text-gray-500 text-sm max-w-[200px]">
+            Select an event from the calendar to view its details here.
+          </p>
         </div>
       )}
 
