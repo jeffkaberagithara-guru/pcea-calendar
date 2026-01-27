@@ -58,6 +58,7 @@ function App() {
   const handleEventSelect = (event) => {
     setSelectedEvent(event);
     if (event) {
+      setFilterType(event.category);
       setTimeout(() => {
         document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
