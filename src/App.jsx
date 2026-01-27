@@ -80,42 +80,7 @@ function App() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => {
-                  document.getElementById('upcoming-events')?.scrollIntoView({ behavior: 'smooth' });
-                  setNotificationCount(0);
-                  showToast("Navigated to Upcoming Events", "info");
-                }}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95 relative"
-                title="Notifications"
-              >
-                <Bell className="w-5 h-5" />
-                {notificationCount > 0 && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                )}
-              </button>
-              <button
-                onClick={() => {
-                  document.getElementById('calendar-stats')?.scrollIntoView({ behavior: 'smooth' });
-                  showToast("Viewing Calendar Statistics", "info");
-                }}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95"
-                title="Activity & Stats"
-              >
-                <Activity className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => {
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  showToast("Settings panel coming soon!", "info");
-                }}
-                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all active:scale-95"
-                title="Settings"
-              >
-                <Settings className="w-5 h-5" />
-              </button>
-            </div>
+
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4 relative">
@@ -178,7 +143,7 @@ function App() {
           </div>
         </header>
 
-        <div className="flex flex-col xl:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 space-y-6">
             <QuarterOne
               events={filteredEvents}
@@ -197,7 +162,7 @@ function App() {
             />
           </div>
 
-          <div id="events-panel" className="scroll-mt-8">
+          <div id="events-panel" className="scroll-mt-8 lg:sticky lg:top-8 lg:h-fit">
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
