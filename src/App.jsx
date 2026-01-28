@@ -25,10 +25,25 @@ function App() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
+      const scrollContainer = document.getElementById('calendar-view');
+      if (scrollContainer) {
+        setShowBackToTop(scrollContainer.scrollTop > 400);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Attach listener to the scroll container instead of window
+    const scrollContainer = document.getElementById('calendar-view');
+    // Using a timeout to ensure element exists
+    const timer = setTimeout(() => {
+      const el = document.getElementById('calendar-view');
+      el?.addEventListener('scroll', handleScroll);
+    }, 500);
+
+    return () => {
+      const el = document.getElementById('calendar-view');
+      el?.removeEventListener('scroll', handleScroll);
+      clearTimeout(timer);
+    };
   }, []);
 
   const showToast = (message, type = 'success') => {
@@ -68,10 +83,10 @@ function App() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="mx-auto max-w-[1800px]">
-        {/* Header with Icons */}
-        <header className="mb-8">
+    <main className="h-screen bg-gray-50 flex flex-col overflow-hidden">
+      <div className="w-full max-w-[1800px] mx-auto flex flex-col h-full">
+        {/* Header with Icons - Fixed at top */}
+        <header className="p-4 md:p-8 pb-4 shrink-0">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-indigo-100 rounded-xl">
@@ -82,11 +97,9 @@ function App() {
                 <p className="text-gray-600">Community Activities & Ministry Schedule</p>
               </div>
             </div>
-
-
           </div>
 
-          <div className="flex flex-wrap gap-2 mb-4 relative">
+          <div className="flex flex-wrap gap-2 relative">
             <button
               onClick={() => {
                 document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth' });
@@ -146,8 +159,11 @@ function App() {
           </div>
         </header>
 
-        <div className="flex flex-col lg:flex-row gap-6">
-          <div className="flex-1 space-y-6">
+        {/* Scrollable Content Area */}
+        <div className="flex flex-col lg:flex-row gap-6 flex-1 overflow-hidden px-4 md:px-8 pb-4">
+
+          {/* Calendar Section - Scrollable */}
+          <div id="calendar-view" className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-6">
             <QuarterOne
               events={filteredEvents}
               onEventSelect={handleEventSelect}
@@ -165,7 +181,8 @@ function App() {
             />
           </div>
 
-          <div id="events-panel" className="scroll-mt-8 lg:sticky lg:top-8 lg:h-fit">
+          {/* Events Panel Section - Independently Scrollable */}
+          <div id="events-panel" className="lg:w-80 shrink-0 overflow-y-auto pl-1 custom-scrollbar">
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
@@ -176,6 +193,7 @@ function App() {
           </div>
         </div>
       </div>
+
       {/* Toast Notification */}
       {toast && (
         <div className={`fixed bottom-8 right-8 px-5 py-3 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-right-4 duration-300 flex items-center gap-3 backdrop-blur-md border border-white/20 ${toast.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-indigo-600 text-white'
@@ -190,10 +208,10 @@ function App() {
         </div>
       )}
 
-      {/* Back to Top Button */}
+      {/* Back to Top Button of Calendar View */}
       {showBackToTop && (
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => document.getElementById('calendar-view')?.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-8 left-8 p-3 bg-white text-gray-900 rounded-full shadow-2xl border border-gray-100 hover:bg-gray-50 transition-all active:scale-90 z-[90] animate-in fade-in zoom-in duration-300"
           title="Back to Top"
         >
