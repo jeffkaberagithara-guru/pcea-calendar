@@ -4,7 +4,7 @@ import { getMonthData, getEventTypeColor, ALL_MONTHS, WEEKDAYS } from "../events
 
 function QuarterOne({ events, onEventSelect, selectedEvent }) {
     const year = 2026;
-    const title = "Q1: January - April";
+    const title = "January - April";
     const subTitle = "2026";
 
     const months = ALL_MONTHS.slice(0, 4);
