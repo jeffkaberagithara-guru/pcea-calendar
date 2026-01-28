@@ -143,7 +143,7 @@ function QuarterTwo({ events, onEventSelect, selectedEvent }) {
                                                                                 description: isPracticeDay ? "Regular midweek choir practice session" : "Sunday morning church presentation",
                                                                                 category: isPracticeDay ? "practice" : "presentation",
                                                                                 type: isPracticeDay ? "practice" : "presentation",
-                                                                                time: isPracticeDay ? "6:00 PM" : "10:00 AM",
+                                                                                time: isPracticeDay ? (dayIndex === 6 ? "4:00 PM - 6:00 PM" : "6:00 PM - 8:00 PM") : "10:00 AM",
                                                                                 month: month.index + 1,
                                                                                 day: day,
                                                                                 year: year
