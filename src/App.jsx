@@ -60,7 +60,9 @@ function App() {
     if (event) {
       setFilterType(event.category);
       setTimeout(() => {
-        document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const detailsPanel = document.getElementById('selected-event-details');
+        const mainPanel = document.getElementById('events-panel');
+        (detailsPanel || mainPanel)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
     }
   };
