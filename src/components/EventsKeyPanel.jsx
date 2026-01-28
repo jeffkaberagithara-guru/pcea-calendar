@@ -136,7 +136,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
 
       {/* Selected Event Details */}
       {selectedEvent ? (
-        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div id="selected-event-details" className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm scroll-mt-24">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <Info className="w-4 h-4" />
