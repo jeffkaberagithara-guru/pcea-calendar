@@ -182,7 +182,7 @@ function App() {
           </div>
 
           {/* Events Panel Section - Independently Scrollable */}
-          <div id="events-panel" className="lg:w-80 shrink-0 overflow-y-auto pl-1 custom-scrollbar">
+          <div id="events-panel" className="lg:w-80 shrink-0 overflow-y-auto overflow-x-hidden pl-1 custom-scrollbar">
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
