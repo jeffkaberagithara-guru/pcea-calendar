@@ -62,7 +62,7 @@ function App() {
       setTimeout(() => {
         const detailsPanel = document.getElementById('selected-event-details');
         const mainPanel = document.getElementById('events-panel');
-        (detailsPanel || mainPanel)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        (detailsPanel || mainPanel)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }
   };
