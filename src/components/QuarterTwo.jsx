@@ -105,7 +105,8 @@ function QuarterTwo({ events, onEventSelect, selectedEvent }) {
                                                     }
 
                                                     const dayEvent = monthEvents.find((e) => e.day === day);
-                                                    const isSelected = selectedEvent?.id === dayEvent?.id;
+                                                    const genericId = `generic-${month.index}-${day}`;
+                                                    const isSelected = selectedEvent?.id === dayEvent?.id || selectedEvent?.id === genericId;
 
                                                     // Determine styling based on day of week and events
                                                     let isPracticeDay = !dayEvent && (dayIndex === 2 || dayIndex === 4 || dayIndex === 6);
