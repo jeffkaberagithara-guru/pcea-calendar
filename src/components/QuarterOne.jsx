@@ -2,7 +2,7 @@ import React from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Target } from 'react-feather';
 import { getMonthData, getEventTypeColor, ALL_MONTHS, WEEKDAYS } from "../events";
 
-function QuarterOne({ events, onEventSelect, selectedEvent }) {
+function QuarterOne({ events, onEventSelect, selectedEvent, filterType = 'all' }) {
     const year = 2026;
     const title = "January - April";
     const subTitle = "2026";
@@ -109,47 +109,76 @@ function QuarterOne({ events, onEventSelect, selectedEvent }) {
                                                     const isSelected = selectedEvent?.id === dayEvent?.id || selectedEvent?.id === genericId;
 
                                                     // Determine styling based on day of week and events
-                                                    let isPracticeDay = !dayEvent && (dayIndex === 2 || dayIndex === 4 || dayIndex === 6);
-                                                    let isPresentationDay = !dayEvent && dayIndex === 0;
-                                                    const isHighlightDay = dayIndex === 0 || dayIndex === 2 || dayIndex === 4 || dayIndex === 6;
+                                                    let isPracticeDay = (dayIndex === 2 || dayIndex === 4 || dayIndex === 6);
+                                                    let isPresentationDay = dayIndex === 0;
 
-                                                    let cellBase = "w-6 h-6 flex items-center justify-center text-xs rounded-full cursor-pointer transition-all duration-200 relative";
-                                                    let cellStyle = theme.hoverBg + " text-gray-900";
+                                                    // Filtering logic:
+                                                    // If filter is 'all', show all highlights
+                                                    // If filter is 'presentation', show only Sundays (and other presentation events)
+                                                    // If filter is 'practice', show only Tue/Thu/Sat (and other practice events)
+                                                    // Otherwise, show only events matching the category
 
-                                                    if (dayIndex === 2 || dayIndex === 4 || dayIndex === 6 || isPracticeDay) {
-                                                        cellStyle = `bg-green-600 text-white font-medium shadow-sm hover:bg-green-700 hover:scale-110`;
-                                                    } else if (isPresentationDay || (dayIndex === 0 && !dayEvent)) {
-                                                        cellStyle = `bg-red-600 text-white font-medium shadow-sm hover:bg-red-700 hover:scale-110`;
-                                                    } else if (dayEvent && isHighlightDay) {
-                                                        cellStyle = `${getEventTypeColor(dayEvent.category)} text-white font-medium shadow-sm hover:opacity-90 hover:scale-110`;
+                                                    let shouldHighlight = false;
+                                                    let highlightColor = "";
+
+                                                    if (filterType === 'all') {
+                                                        if (isPracticeDay) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = "bg-green-600";
+                                                        } else if (isPresentationDay) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = "bg-red-600";
+                                                        } else if (dayEvent) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = getEventTypeColor(dayEvent.category);
+                                                        }
+                                                    } else if (filterType === 'presentation') {
+                                                        if (isPresentationDay || (dayEvent && dayEvent.category === 'presentation')) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = "bg-red-600";
+                                                        }
+                                                    } else if (filterType === 'practice') {
+                                                        if (isPracticeDay || (dayEvent && dayEvent.category === 'practice')) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = "bg-green-600";
+                                                        }
+                                                    } else {
+                                                        // For other specific filters, only highlight if there's an actual event or it matches
+                                                        if (dayEvent && dayEvent.category === filterType) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = getEventTypeColor(dayEvent.category);
+                                                        }
                                                     }
 
+                                                    let cellBase = "w-6 h-6 flex items-center justify-center text-xs rounded-full cursor-pointer transition-all duration-200 relative";
+                                                    let cellStyle = shouldHighlight
+                                                        ? `${highlightColor} text-white font-medium shadow-sm hover:opacity-90 hover:scale-110`
+                                                        : `${theme.hoverBg} text-gray-900`;
+
                                                     if (isSelected) {
-                                                        cellStyle += " scale-110 z-10";
+                                                        cellStyle += " scale-110 z-10 ring-2 ring-offset-2 ring-indigo-500 shadow-lg";
+                                                    } else if (shouldHighlight) {
+                                                        cellStyle += " hover:scale-110";
                                                     }
 
                                                     return (
                                                         <div key={dayIndex} className="flex-1 flex justify-center">
                                                             <div
                                                                 onClick={() => {
-                                                                    if (dayEvent || isPracticeDay || isPresentationDay) {
-                                                                        if (isSelected) {
-                                                                            onEventSelect(null);
-                                                                        } else if (dayEvent) {
-                                                                            onEventSelect(dayEvent);
-                                                                        } else {
-                                                                            onEventSelect({
-                                                                                id: `generic-${month.index}-${day}`,
-                                                                                title: isPracticeDay ? "Choir Practice" : "Church Presentation",
-                                                                                description: isPracticeDay ? "Regular midweek choir practice session" : "Sunday morning church presentation",
-                                                                                category: isPracticeDay ? "practice" : "presentation",
-                                                                                type: isPracticeDay ? "practice" : "presentation",
-                                                                                time: isPracticeDay ? (dayIndex === 6 ? "4:00 PM - 6:00 PM" : "6:00 PM - 8:00 PM") : "10:00 AM",
-                                                                                month: month.index + 1,
-                                                                                day: day,
-                                                                                year: year
-                                                                            });
-                                                                        }
+                                                                    if (dayEvent) {
+                                                                        onEventSelect(dayEvent);
+                                                                    } else if (isPracticeDay || isPresentationDay) {
+                                                                        onEventSelect({
+                                                                            id: `generic-${month.index}-${day}`,
+                                                                            title: isPracticeDay ? "Choir Practice" : "Church Presentation",
+                                                                            description: isPracticeDay ? "Regular midweek choir practice session" : "Sunday morning church presentation",
+                                                                            category: isPracticeDay ? "practice" : "presentation",
+                                                                            type: isPracticeDay ? "practice" : "presentation",
+                                                                            time: isPracticeDay ? (dayIndex === 6 ? "4:00 PM - 6:00 PM" : "6:00 PM - 8:00 PM") : "10:00 AM",
+                                                                            month: month.index + 1,
+                                                                            day: day,
+                                                                            year: year
+                                                                        });
                                                                     }
                                                                 }}
                                                                 className={`${cellBase} ${cellStyle}`}
