@@ -31,9 +31,7 @@ function App() {
       }
     };
 
-    // Attach listener to the scroll container instead of window
     const scrollContainer = document.getElementById('calendar-view');
-    // Using a timeout to ensure element exists
     const timer = setTimeout(() => {
       const el = document.getElementById('calendar-view');
       el?.addEventListener('scroll', handleScroll);
@@ -51,7 +49,6 @@ function App() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // Filter events based on selection
   const filteredEvents = filterType === 'all'
     ? events
     : events.filter(e => e.category === filterType);
@@ -64,20 +61,51 @@ function App() {
     }, 2000);
   };
 
-  const clearFilters = () => {
-    setFilterType('all');
+  const handleFilterUpdate = (type) => {
+    setFilterType(type);
     setShowFilters(false);
+
+    if (type !== 'all') {
+      const virtualEvent = {
+        id: `filter-summary-${type}`,
+        title: type.charAt(0).toUpperCase() + type.slice(1) + (type === 'presentation' || type === 'practice' ? '' : ' Event'),
+        description: type === 'presentation'
+          ? "Special presentations by church groups and ministries during Sunday services."
+          : type === 'practice'
+            ? "Regular weekly rehearsals for the church choir and worship team preparation."
+            : `Viewing all scheduled ${type} activities on the calendar.`,
+        category: type,
+        type: type,
+        time: "Scheduled Times",
+        month: "2026",
+        day: "Recurring"
+      };
+
+      setSelectedEvent(virtualEvent);
+
+      setTimeout(() => {
+        const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('events-panel');
+        detailsPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    } else {
+      setSelectedEvent(null);
+    }
   };
 
-  // Scroll to events panel when an event is selected
+  const clearFilters = () => {
+    handleFilterUpdate('all');
+  };
+
   const handleEventSelect = (event) => {
     setSelectedEvent(event);
     if (event) {
-      setFilterType(event.category);
+      if (event.category) {
+        setFilterType(event.category);
+      }
+
       setTimeout(() => {
-        const detailsPanel = document.getElementById('selected-event-details');
-        const mainPanel = document.getElementById('events-panel');
-        (detailsPanel || mainPanel)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('events-panel');
+        detailsPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }
   };
@@ -85,7 +113,6 @@ function App() {
   return (
     <main className="h-screen bg-gray-50 flex flex-col overflow-hidden">
       <div className="w-full max-w-[1800px] mx-auto flex flex-col h-full">
-        {/* Header with Icons - Fixed at top */}
         <header className="p-4 md:p-8 pb-4 shrink-0">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
@@ -124,10 +151,7 @@ function App() {
                   {['all', 'presentation', 'mission', 'practice', 'visit', 'worship', 'youth'].map((type) => (
                     <button
                       key={type}
-                      onClick={() => {
-                        setFilterType(type);
-                        setShowFilters(false);
-                      }}
+                      onClick={() => handleFilterUpdate(type)}
                       className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${filterType === type ? "bg-indigo-600 text-white" : "text-gray-700 hover:bg-indigo-50"}`}
                     >
                       {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -159,42 +183,40 @@ function App() {
           </div>
         </header>
 
-        {/* Scrollable Content Area */}
         <div className="flex flex-col lg:flex-row gap-6 flex-1 overflow-hidden px-4 md:px-8 pb-4">
-
-          {/* Calendar Section - Scrollable */}
           <div id="calendar-view" className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-6">
             <QuarterOne
               events={filteredEvents}
               onEventSelect={handleEventSelect}
               selectedEvent={selectedEvent}
+              filterType={filterType}
             />
             <QuarterTwo
               events={filteredEvents}
               onEventSelect={handleEventSelect}
               selectedEvent={selectedEvent}
+              filterType={filterType}
             />
             <QuarterThree
               events={filteredEvents}
               onEventSelect={handleEventSelect}
               selectedEvent={selectedEvent}
+              filterType={filterType}
             />
           </div>
 
-          {/* Events Panel Section - Independently Scrollable */}
           <div id="events-panel" className="lg:w-80 shrink-0 overflow-y-auto overflow-x-hidden pl-1 custom-scrollbar">
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
               onEventSelect={handleEventSelect}
               filterType={filterType}
-              onFilterChange={setFilterType}
+              onFilterChange={handleFilterUpdate}
             />
           </div>
         </div>
       </div>
 
-      {/* Toast Notification */}
       {toast && (
         <div className={`fixed bottom-8 right-8 px-5 py-3 rounded-2xl shadow-2xl z-[100] animate-in fade-in slide-in-from-right-4 duration-300 flex items-center gap-3 backdrop-blur-md border border-white/20 ${toast.type === 'success' ? 'bg-emerald-600 text-white' : 'bg-indigo-600 text-white'
           }`}>
@@ -208,7 +230,6 @@ function App() {
         </div>
       )}
 
-      {/* Back to Top Button of Calendar View */}
       {showBackToTop && (
         <button
           onClick={() => document.getElementById('calendar-view')?.scrollTo({ top: 0, behavior: 'smooth' })}
