@@ -7,7 +7,7 @@ export const events = [
         month: 1,
         day: 1,
         type: "worship",
-        category: "presentation"
+        category: "worship"
     },
     {
         id: 2,
@@ -34,7 +34,7 @@ export const events = [
         month: 4,
         day: 20,
         type: "worship",
-        category: "presentation"
+        category: "worship"
     },
     {
         id: 6,
@@ -70,7 +70,7 @@ export const events = [
         month: 8,
         day: 25,
         type: "celebration",
-        category: "presentation"
+        category: "celebration"
     },
     {
         id: 10,
@@ -79,7 +79,7 @@ export const events = [
         month: 9,
         day: 1,
         type: "worship",
-        category: "presentation"
+        category: "worship"
     },
     {
         id: 11,
@@ -97,7 +97,7 @@ export const events = [
         month: 11,
         day: 28,
         type: "worship",
-        category: "presentation"
+        category: "worship"
     },
     {
         id: 13,
@@ -106,7 +106,7 @@ export const events = [
         month: 12,
         day: 15,
         type: "music",
-        category: "presentation"
+        category: "music"
     },
     {
         id: 14,
@@ -115,7 +115,7 @@ export const events = [
         month: 12,
         day: 24,
         type: "worship",
-        category: "presentation"
+        category: "worship"
     },
     {
         id: 15,
@@ -124,7 +124,7 @@ export const events = [
         month: 12,
         day: 31,
         type: "worship",
-        category: "presentation"
+        category: "worship"
     }
 ];
 
