@@ -124,10 +124,18 @@ function QuarterThree({ events, onEventSelect, selectedEvent, filterType = 'all'
                                                             highlightColor = "bg-red-600";
                                                         } else if (dayEvent) {
                                                             shouldHighlight = true;
-                                                            highlightColor = getEventTypeColor(dayEvent.category);
+                                                            const defaultColor = getEventTypeColor(dayEvent.category);
+                                                            // Safety check: Only Sundays should be red
+                                                            highlightColor = (defaultColor === 'bg-red-600' && dayIndex !== 0)
+                                                                ? 'bg-blue-600'
+                                                                : defaultColor;
                                                         }
                                                     } else if (filterType === 'presentation') {
-                                                        if (isPresentationDay || (dayEvent && dayEvent.category === 'presentation')) {
+                                                        // When filtering for presentation, only show Sundays as red
+                                                        if (isPresentationDay) {
+                                                            shouldHighlight = true;
+                                                            highlightColor = "bg-red-600";
+                                                        } else if (dayEvent && dayEvent.category === 'presentation' && dayIndex === 0) {
                                                             shouldHighlight = true;
                                                             highlightColor = "bg-red-600";
                                                         }
