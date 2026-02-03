@@ -54,19 +54,6 @@ function QuarterOne({ events, onEventSelect, selectedEvent, filterType = 'all' }
 
             <div className="p-4 overflow-x-auto">
                 <div className="space-y-3">
-                    {/* Week Header */}
-                    <div className="flex items-center gap-2">
-                        <div className="w-10 sm:w-12 shrink-0" />
-                        <div className="grid grid-cols-7 gap-1 flex-1">
-                            {WEEKDAYS.map((day, index) => (
-                                <div key={day} className={`text-center text-[10px] sm:text-xs font-bold uppercase tracking-wider ${index === 0 ? "text-red-500" :
-                                    (index === 2 || index === 4 || index === 6) ? "text-green-600" : "text-gray-400"
-                                    }`}>
-                                    {day}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
 
                     {months.map((month) => {
                         const monthData = getMonthData(year, month.index);
@@ -89,101 +76,114 @@ function QuarterOne({ events, onEventSelect, selectedEvent, filterType = 'all' }
                         }
 
                         return (
-                            <div key={month.abbr} className={`rounded-lg p-3 border ${theme.monthBgGradient} ${theme.monthBorder}`}>
-                                <div className="w-10 sm:w-12 shrink-0 flex flex-col items-center justify-center border-r border-gray-100/50 mr-1">
-                                    <span className={`text-xs sm:text-sm font-black ${theme.monthTextColor}`}>{month.abbr}</span>
-                                    <Target className={`w-3 h-3 mt-1 opacity-50 ${theme.monthIconColor}`} />
+                            <div key={month.abbr} className={`rounded-xl p-3 border ${theme.monthBgGradient} ${theme.monthBorder} flex flex-col sm:flex-row items-start gap-3 sm:gap-4`}>
+                                <div className="w-full sm:w-12 shrink-0 flex sm:flex-col items-center justify-between sm:justify-center sm:border-r border-gray-100/50 sm:pr-2 sm:mr-1">
+                                    <span className={`text-sm sm:text-base font-black uppercase tracking-tighter ${theme.monthTextColor}`}>{month.name}</span>
+                                    <Target className={`w-4 h-4 sm:mt-1 opacity-50 ${theme.monthIconColor}`} />
                                 </div>
 
-                                <div className="flex-1 grid grid-cols-7 gap-1">
-                                    {Array.from({ length: monthData.startDay }).map((_, i) => (
-                                        <div key={`empty-${i}`} className="aspect-square" />
-                                    ))}
-
-                                    {Array.from({ length: monthData.daysInMonth }).map((_, i) => {
-                                        const day = i + 1;
-                                        const date = new Date(year, month.index, day);
-                                        const dayOfWeek = date.getDay();
-
-                                        const dayEvent = monthEvents.find((e) => e.day === day);
-                                        const genericId = `generic-${month.index}-${day}`;
-                                        const isSelected = selectedEvent?.id === dayEvent?.id || selectedEvent?.id === genericId;
-
-                                        let isPracticeDay = (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6);
-                                        let isPresentationDay = dayOfWeek === 0;
-
-                                        let shouldHighlight = false;
-                                        let highlightColor = "";
-
-                                        if (filterType === 'all') {
-                                            if (isPracticeDay) {
-                                                shouldHighlight = true;
-                                                highlightColor = "bg-green-600";
-                                            } else if (isPresentationDay) {
-                                                shouldHighlight = true;
-                                                highlightColor = "bg-red-600";
-                                            } else if (dayEvent) {
-                                                shouldHighlight = true;
-                                                const defaultColor = getEventTypeColor(dayEvent.category);
-                                                highlightColor = (defaultColor === 'bg-red-600' && dayOfWeek !== 0)
-                                                    ? 'bg-blue-600'
-                                                    : defaultColor;
-                                            }
-                                        } else if (filterType === 'presentation') {
-                                            if (isPresentationDay) {
-                                                shouldHighlight = true;
-                                                highlightColor = "bg-red-600";
-                                            }
-                                        } else if (filterType === 'practice') {
-                                            if (isPracticeDay || (dayEvent && dayEvent.category === 'practice')) {
-                                                shouldHighlight = true;
-                                                highlightColor = "bg-green-600";
-                                            }
-                                        } else {
-                                            if (dayEvent && dayEvent.category === filterType) {
-                                                shouldHighlight = true;
-                                                highlightColor = getEventTypeColor(dayEvent.category);
-                                            }
-                                        }
-
-                                        let cellBase = "aspect-square w-full max-w-[32px] mx-auto flex items-center justify-center text-[11px] sm:text-xs rounded-full cursor-pointer transition-all duration-300 relative group";
-                                        let cellStyle = shouldHighlight
-                                            ? `${highlightColor} text-white font-bold shadow-md ring-offset-1 hover:ring-2 hover:ring-offset-2 ring-indigo-300`
-                                            : `hover:bg-indigo-50 text-gray-700 font-medium`;
-
-                                        if (isSelected) {
-                                            cellStyle += " ring-2 ring-offset-2 ring-indigo-500 scale-110 z-10 shadow-indigo-200";
-                                        }
-
-                                        return (
-                                            <div
-                                                key={day}
-                                                onClick={() => {
-                                                    if (dayEvent) {
-                                                        onEventSelect(dayEvent);
-                                                    } else if (isPracticeDay || isPresentationDay) {
-                                                        onEventSelect({
-                                                            id: genericId,
-                                                            title: isPracticeDay ? "Choir Practice" : "Church Presentation",
-                                                            description: isPracticeDay ? "Regular midweek choir practice session" : "Sunday morning church presentation",
-                                                            category: isPracticeDay ? "practice" : "presentation",
-                                                            type: isPracticeDay ? "practice" : "presentation",
-                                                            time: isPracticeDay ? (dayOfWeek === 6 ? "4:00 PM - 6:00 PM" : "6:00 PM - 8:00 PM") : "10:00 AM",
-                                                            month: month.index + 1,
-                                                            day: day,
-                                                            year: year
-                                                        });
-                                                    }
-                                                }}
-                                                className={`${cellBase} ${cellStyle}`}
-                                            >
-                                                {day}
-                                                {dayEvent && !shouldHighlight && !isSelected && (
-                                                    <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-indigo-500 rounded-full"></div>
-                                                )}
+                                <div className="flex-1 w-full">
+                                    {/* Weekdays Header inside each month */}
+                                    <div className="grid grid-cols-7 gap-1 mb-2">
+                                        {WEEKDAYS.map((day, index) => (
+                                            <div key={day} className={`text-center text-[9px] sm:text-[10px] font-black uppercase tracking-widest ${index === 0 ? "text-red-500" :
+                                                (index === 2 || index === 4 || index === 6) ? "text-green-600" : "text-gray-400"
+                                                }`}>
+                                                {day.substring(0, 3)}
                                             </div>
-                                        );
-                                    })}
+                                        ))}
+                                    </div>
+
+                                    <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
+                                        {Array.from({ length: monthData.startDay }).map((_, i) => (
+                                            <div key={`empty-${i}`} className="aspect-square" />
+                                        ))}
+
+                                        {Array.from({ length: monthData.daysInMonth }).map((_, i) => {
+                                            const day = i + 1;
+                                            const date = new Date(year, month.index, day);
+                                            const dayOfWeek = date.getDay();
+
+                                            const dayEvent = monthEvents.find((e) => e.day === day);
+                                            const genericId = `generic-${month.index}-${day}`;
+                                            const isSelected = selectedEvent?.id === dayEvent?.id || selectedEvent?.id === genericId;
+
+                                            let isPracticeDay = (dayOfWeek === 2 || dayOfWeek === 4 || dayOfWeek === 6);
+                                            let isPresentationDay = dayOfWeek === 0;
+
+                                            let shouldHighlight = false;
+                                            let highlightColor = "";
+
+                                            if (filterType === 'all') {
+                                                if (isPracticeDay) {
+                                                    shouldHighlight = true;
+                                                    highlightColor = "bg-green-600";
+                                                } else if (isPresentationDay) {
+                                                    shouldHighlight = true;
+                                                    highlightColor = "bg-red-600";
+                                                } else if (dayEvent) {
+                                                    shouldHighlight = true;
+                                                    const defaultColor = getEventTypeColor(dayEvent.category);
+                                                    highlightColor = (defaultColor === 'bg-red-600' && dayOfWeek !== 0)
+                                                        ? 'bg-blue-600'
+                                                        : defaultColor;
+                                                }
+                                            } else if (filterType === 'presentation') {
+                                                if (isPresentationDay) {
+                                                    shouldHighlight = true;
+                                                    highlightColor = "bg-red-600";
+                                                }
+                                            } else if (filterType === 'practice') {
+                                                if (isPracticeDay || (dayEvent && dayEvent.category === 'practice')) {
+                                                    shouldHighlight = true;
+                                                    highlightColor = "bg-green-600";
+                                                }
+                                            } else {
+                                                if (dayEvent && dayEvent.category === filterType) {
+                                                    shouldHighlight = true;
+                                                    highlightColor = getEventTypeColor(dayEvent.category);
+                                                }
+                                            }
+
+                                            let cellBase = "aspect-square w-full max-w-[28px] sm:max-w-[32px] mx-auto flex items-center justify-center text-[10px] sm:text-xs rounded-full cursor-pointer transition-all duration-300 relative group";
+                                            let cellStyle = shouldHighlight
+                                                ? `${highlightColor} text-white font-bold shadow-sm ring-offset-1 hover:ring-2 hover:ring-offset-2 ring-indigo-300`
+                                                : `hover:bg-indigo-50 text-gray-700 font-medium`;
+
+                                            if (isSelected) {
+                                                cellStyle += " ring-2 ring-offset-2 ring-indigo-500 scale-105 z-10 shadow-md";
+                                            }
+
+                                            return (
+                                                <div
+                                                    key={day}
+                                                    onClick={() => {
+                                                        if (dayEvent) {
+                                                            onEventSelect(dayEvent);
+                                                        } else if (isPracticeDay || isPresentationDay) {
+                                                            onEventSelect({
+                                                                id: genericId,
+                                                                title: isPracticeDay ? "Choir Practice" : "Church Presentation",
+                                                                description: isPracticeDay ? "Regular midweek choir practice session" : "Sunday morning church presentation",
+                                                                category: isPracticeDay ? "practice" : "presentation",
+                                                                type: isPracticeDay ? "practice" : "presentation",
+                                                                time: isPracticeDay ? (dayOfWeek === 6 ? "4:00 PM - 6:00 PM" : "6:00 PM - 8:00 PM") : "10:00 AM",
+                                                                month: month.index + 1,
+                                                                day: day,
+                                                                year: year
+                                                            });
+                                                        }
+                                                    }}
+                                                    className={`${cellBase} ${cellStyle}`}
+                                                >
+                                                    {day}
+                                                    {dayEvent && !shouldHighlight && !isSelected && (
+                                                        <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-indigo-500 rounded-full"></div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
                         );
