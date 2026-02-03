@@ -111,17 +111,17 @@ function App() {
   };
 
   return (
-    <main className="h-screen bg-gray-50 flex flex-col overflow-hidden">
-      <div className="w-full max-w-[1800px] mx-auto flex flex-col h-full">
+    <main className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="w-full max-w-[1800px] mx-auto flex flex-col min-h-screen">
         <header className="p-4 md:p-8 pb-4 shrink-0">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-indigo-100 rounded-xl">
                 <Calendar className="w-8 h-8 text-indigo-600" />
               </div>
               <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Annual Events Calendar</h1>
-                <p className="text-gray-600">Community Activities & Ministry Schedule</p>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">Annual Events Calendar</h1>
+                <p className="text-sm sm:text-base text-gray-600">Community Activities & Ministry Schedule</p>
               </div>
             </div>
           </div>
@@ -131,18 +131,18 @@ function App() {
               onClick={() => {
                 document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100 flex items-center gap-2 group relative overflow-hidden"
+              className="px-3 sm:px-4 py-2 bg-indigo-600 text-white text-sm sm:text-base rounded-lg hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100 flex items-center gap-2 group relative overflow-hidden shrink-0"
             >
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               <Info className="w-4 h-4" />
-              <span>View All Events</span>
+              <span>View Details</span>
             </button>
             <div className="relative">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`px-4 py-2 border rounded-lg transition-all active:scale-95 flex items-center gap-2 ${filterType !== 'all' ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-medium" : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"}`}
+                className={`px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base transition-all active:scale-95 flex items-center gap-2 ${filterType !== 'all' ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-medium" : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"}`}
               >
-                Filter by: {filterType === 'all' ? 'Type' : filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+                Filter: {filterType === 'all' ? 'All' : filterType.charAt(0).toUpperCase() + filterType.slice(1)}
               </button>
 
               {showFilters && (
@@ -163,28 +163,28 @@ function App() {
             <button
               onClick={handleExport}
               disabled={isExporting}
-              className={`px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg transition-all active:scale-95 ${isExporting ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50 hover:border-gray-400"}`}
+              className={`px-3 sm:px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm sm:text-base rounded-lg transition-all active:scale-95 ${isExporting ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-50 hover:border-gray-400"}`}
             >
               {isExporting ? (
                 <span className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
-                  Exporting...
+                  <div className="w-3 h-3 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                  ...
                 </span>
-              ) : "Export Calendar"}
+              ) : "Export"}
             </button>
             {filterType !== 'all' && (
               <button
                 onClick={clearFilters}
-                className="px-4 py-2 text-indigo-600 text-sm font-medium hover:text-indigo-800 underline-offset-4 hover:underline"
+                className="px-2 py-2 text-indigo-600 text-xs sm:text-sm font-medium hover:text-indigo-800 underline-offset-4 hover:underline"
               >
-                Clear all filters
+                Reset
               </button>
             )}
           </div>
         </header>
 
-        <div className="flex flex-col lg:flex-row gap-6 flex-1 overflow-hidden px-4 md:px-8 pb-4">
-          <div id="calendar-view" className="flex-1 overflow-y-auto pr-2 custom-scrollbar space-y-6">
+        <div className="flex flex-col lg:grid lg:grid-cols-[1fr,320px] gap-6 flex-1 px-4 md:px-8 pb-4 min-h-0">
+          <div id="calendar-view" className="flex-1 overflow-y-auto lg:pr-2 custom-scrollbar space-y-6">
             <QuarterOne
               events={filteredEvents}
               onEventSelect={handleEventSelect}
@@ -205,7 +205,7 @@ function App() {
             />
           </div>
 
-          <div id="events-panel" className="lg:w-80 shrink-0 overflow-y-auto overflow-x-hidden pl-1 custom-scrollbar">
+          <div id="events-panel" className="shrink-0 lg:overflow-y-auto lg:overflow-x-hidden pl-1 custom-scrollbar">
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
