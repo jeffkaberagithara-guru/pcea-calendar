@@ -113,36 +113,36 @@ function App() {
   return (
     <main className="min-h-screen bg-gray-50 flex flex-col">
       <div className="w-full max-w-[1800px] mx-auto flex flex-col min-h-screen">
-        <header className="p-4 md:p-8 pb-4 shrink-0">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-indigo-100 rounded-xl">
-                <Calendar className="w-8 h-8 text-indigo-600" />
+        <header className="p-4 md:p-8 pb-3 shrink-0">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
+            <div className="flex items-center gap-4">
+              <div className="p-3.5 bg-indigo-100 rounded-2xl shadow-sm shadow-indigo-50">
+                <Calendar className="w-9 h-9 text-indigo-600" />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">Annual Events Calendar</h1>
-                <p className="text-sm sm:text-base text-gray-600">Community Activities & Ministry Schedule</p>
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">Annual Events Calendar</h1>
+                <p className="text-sm sm:text-lg text-gray-500 font-medium">Community Activities & Ministry Schedule</p>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 relative">
+          <div className="flex flex-wrap gap-3 relative pb-4 border-b border-gray-100">
             <button
               onClick={() => {
                 document.getElementById('events-panel')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-3 sm:px-4 py-2 bg-indigo-600 text-white text-sm sm:text-base rounded-lg hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100 flex items-center gap-2 group relative overflow-hidden shrink-0"
+              className="px-5 py-2.5 bg-indigo-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100 flex items-center gap-2 group relative overflow-hidden shrink-0"
             >
               <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12"></div>
               <Info className="w-4 h-4" />
-              <span>View Details</span>
+              <span>Event Details</span>
             </button>
             <div className="relative">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base transition-all active:scale-95 flex items-center gap-2 ${filterType !== 'all' ? "bg-indigo-50 border-indigo-200 text-indigo-700 font-medium" : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50"}`}
+                className={`px-5 py-2.5 border rounded-xl text-sm sm:text-base font-semibold transition-all active:scale-95 flex items-center gap-2 ${filterType !== 'all' ? "bg-indigo-50 border-indigo-200 text-indigo-700 shadow-sm" : "bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400"}`}
               >
-                Filter: {filterType === 'all' ? 'All' : filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+                Category: {filterType === 'all' ? 'All' : filterType.charAt(0).toUpperCase() + filterType.slice(1)}
               </button>
 
               {showFilters && (
