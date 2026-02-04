@@ -183,8 +183,8 @@ function App() {
           </div>
         </header>
 
-        <div className="flex flex-col lg:grid lg:grid-cols-[1fr,320px] gap-6 flex-1 px-4 md:px-8 pb-4 min-h-0">
-          <div id="calendar-view" className="flex-1 overflow-y-auto lg:pr-2 custom-scrollbar space-y-6">
+        <div className="flex flex-col md:grid md:grid-cols-[1fr,300px] lg:grid-cols-[1fr,320px] gap-6 flex-1 px-4 md:px-8 pb-4 min-h-0">
+          <div id="calendar-view" className="flex-1 overflow-y-auto md:pr-2 custom-scrollbar space-y-6">
             <QuarterOne
               events={filteredEvents}
               onEventSelect={handleEventSelect}
@@ -205,7 +205,7 @@ function App() {
             />
           </div>
 
-          <div id="events-panel" className="shrink-0 lg:overflow-y-auto lg:overflow-x-hidden pl-1 custom-scrollbar">
+          <div id="events-panel" className="shrink-0 md:overflow-y-auto md:overflow-x-hidden pl-1 custom-scrollbar">
             <EventsKeyPanel
               events={events}
               selectedEvent={selectedEvent}
