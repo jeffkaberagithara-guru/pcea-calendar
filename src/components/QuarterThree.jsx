@@ -96,7 +96,7 @@ function QuarterThree({ events, onEventSelect, selectedEvent, filterType = 'all'
 
                                     <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
                                         {Array.from({ length: monthData.startDay }).map((_, i) => (
-                                            <div key={`empty-${i}`} className="aspect-square" />
+                                            <div key={`empty-${i}`} className="aspect-square w-full max-w-[28px] sm:max-w-[32px] mx-auto" />
                                         ))}
 
                                         {Array.from({ length: monthData.daysInMonth }).map((_, i) => {
