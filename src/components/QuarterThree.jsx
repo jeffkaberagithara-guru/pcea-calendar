@@ -121,12 +121,6 @@ function QuarterThree({ events, onEventSelect, selectedEvent, filterType = 'all'
                                                 } else if (isPresentationDay) {
                                                     shouldHighlight = true;
                                                     highlightColor = "bg-red-600";
-                                                } else if (dayEvent) {
-                                                    shouldHighlight = true;
-                                                    const defaultColor = getEventTypeColor(dayEvent.category);
-                                                    highlightColor = (defaultColor === 'bg-red-600' && dayOfWeek !== 0)
-                                                        ? 'bg-blue-600'
-                                                        : defaultColor;
                                                 }
                                             } else if (filterType === 'presentation') {
                                                 if (isPresentationDay) {
