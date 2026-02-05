@@ -147,11 +147,11 @@ function QuarterThree({ events, onEventSelect, selectedEvent, filterType = 'all'
 
                                             let cellBase = "aspect-square w-full max-w-[28px] sm:max-w-[32px] mx-auto flex items-center justify-center text-[10px] sm:text-xs rounded-full cursor-pointer transition-all duration-300 relative group";
                                             let cellStyle = shouldHighlight
-                                                ? `${highlightColor} text-white font-bold shadow-sm ring-offset-1 hover:ring-2 hover:ring-offset-2 ring-indigo-300`
+                                                ? `${highlightColor} text-white font-bold shadow-sm`
                                                 : `hover:bg-indigo-50 text-gray-700 font-medium`;
 
                                             if (isSelected) {
-                                                cellStyle += " ring-2 ring-offset-2 ring-indigo-500 scale-105 z-10 shadow-md";
+                                                cellStyle += " scale-105 z-10 shadow-md";
                                             }
 
                                             return (
