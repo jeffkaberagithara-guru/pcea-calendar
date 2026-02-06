@@ -84,9 +84,14 @@ function App() {
       setSelectedEvent(virtualEvent);
 
       setTimeout(() => {
+        const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('event-details-placeholder');
+        if (detailsPanel) {
+          detailsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        // Also ensure container is at top for desktop
         const eventsPanel = document.getElementById('events-panel');
         if (eventsPanel) {
-          eventsPanel.scrollTo({ top: 0, behavior: 'smooth' });
+          eventsPanel.scrollTop = 0;
         }
       }, 100);
     } else {
@@ -106,9 +111,14 @@ function App() {
       }
 
       setTimeout(() => {
+        const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('event-details-placeholder');
+        if (detailsPanel) {
+          detailsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        // Also ensure container is at top for desktop
         const eventsPanel = document.getElementById('events-panel');
         if (eventsPanel) {
-          eventsPanel.scrollTo({ top: 0, behavior: 'smooth' });
+          eventsPanel.scrollTop = 0;
         }
       }, 100);
     }
