@@ -52,88 +52,6 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
 
   return (
     <div className="w-full space-y-4 sm:space-y-6">
-      {/* Event Key */}
-      <div className="rounded-xl border border-gray-200 bg-white p-4 sm:p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-base sm:text-lg font-bold text-gray-900 flex items-center gap-2">
-            <Filter className="w-4 h-4 text-indigo-500" />
-            Event Legend
-          </h3>
-          <button
-            onClick={() => {
-              onFilterChange(filterType === 'all' ? 'none' : 'all');
-              onEventSelect(null);
-            }}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors active:scale-90"
-            title={filterType === 'all' ? "Hide all" : "Show all"}
-          >
-            {filterType === 'all' ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-          </button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2">
-          {eventTypes.map((eventType) => (
-            <button
-              key={eventType.type}
-              onClick={() => {
-                const newFilter = filterType === eventType.type ? 'all' : eventType.type;
-                onFilterChange(newFilter);
-                if (newFilter !== 'all') {
-                  onEventSelect({
-                    id: `legend-${eventType.type}`,
-                    title: eventType.label,
-                    description: eventType.description,
-                    category: eventType.type,
-                    type: eventType.type,
-                    time: "Various Times",
-                    month: "2026",
-                    day: "Year-round"
-                  });
-                } else {
-                  onEventSelect(null);
-                }
-              }}
-              className={`w-full flex items-center justify-between group p-2 rounded-lg transition-all active:scale-[0.98] border ${filterType === eventType.type ? "bg-indigo-50 border-indigo-200 shadow-sm" : "bg-white border-transparent hover:bg-gray-50"}`}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${eventType.color} text-white shadow-sm shrink-0`}>
-                  {eventType.icon}
-                </div>
-                <span className={`text-xs sm:text-sm font-semibold ${filterType === eventType.type ? "text-indigo-700" : "text-gray-700"}`}>{eventType.label}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${filterType === eventType.type ? "bg-indigo-100 text-indigo-700 font-bold" : "bg-gray-100 text-gray-400"}`}>
-                  {eventCounts[eventType.type] || 0}
-                </span>
-                <ChevronRight className={`w-4 h-4 transition-transform ${filterType === eventType.type ? "text-indigo-400 translate-x-1" : "text-gray-300 group-hover:text-gray-400"}`} />
-              </div>
-            </button>
-          ))}
-        </div>
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <button
-            onClick={(e) => {
-              const btn = e.currentTarget;
-              const originalText = btn.innerHTML;
-              btn.innerHTML = '<div class="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div> PDF Exporting...';
-              btn.disabled = true;
-              setTimeout(() => {
-                btn.innerHTML = '✓ Legend Exported';
-                btn.classList.add('bg-emerald-50', 'text-emerald-700');
-                setTimeout(() => {
-                  btn.innerHTML = originalText;
-                  btn.classList.remove('bg-emerald-50', 'text-emerald-700');
-                  btn.disabled = false;
-                }, 2000);
-              }, 1500);
-            }}
-            className="w-full py-2 bg-gray-50 text-gray-700 text-sm rounded-lg hover:bg-gray-100 transition-all active:scale-95 flex items-center justify-center gap-2 font-bold"
-          >
-            <Download className="w-4 h-4" />
-            Export Legend
-          </button>
-        </div>
-      </div>
-
       {/* Selected Event Details */}
       {selectedEvent ? (
         <div id="selected-event-details" className="rounded-xl border border-gray-200 bg-white p-4 sm:p-6 shadow-sm scroll-mt-24 ring-2 ring-indigo-100">
@@ -218,6 +136,88 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
           </p>
         </div>
       )}
+
+      {/* Event Key */}
+      <div className="rounded-xl border border-gray-200 bg-white p-4 sm:p-6 shadow-sm">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-base sm:text-lg font-bold text-gray-900 flex items-center gap-2">
+            <Filter className="w-4 h-4 text-indigo-500" />
+            Event Legend
+          </h3>
+          <button
+            onClick={() => {
+              onFilterChange(filterType === 'all' ? 'none' : 'all');
+              onEventSelect(null);
+            }}
+            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg transition-colors active:scale-90"
+            title={filterType === 'all' ? "Hide all" : "Show all"}
+          >
+            {filterType === 'all' ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2">
+          {eventTypes.map((eventType) => (
+            <button
+              key={eventType.type}
+              onClick={() => {
+                const newFilter = filterType === eventType.type ? 'all' : eventType.type;
+                onFilterChange(newFilter);
+                if (newFilter !== 'all') {
+                  onEventSelect({
+                    id: `legend-${eventType.type}`,
+                    title: eventType.label,
+                    description: eventType.description,
+                    category: eventType.type,
+                    type: eventType.type,
+                    time: "Various Times",
+                    month: "2026",
+                    day: "Year-round"
+                  });
+                } else {
+                  onEventSelect(null);
+                }
+              }}
+              className={`w-full flex items-center justify-between group p-2 rounded-lg transition-all active:scale-[0.98] border ${filterType === eventType.type ? "bg-indigo-50 border-indigo-200 shadow-sm" : "bg-white border-transparent hover:bg-gray-50"}`}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${eventType.color} text-white shadow-sm shrink-0`}>
+                  {eventType.icon}
+                </div>
+                <span className={`text-xs sm:text-sm font-semibold ${filterType === eventType.type ? "text-indigo-700" : "text-gray-700"}`}>{eventType.label}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${filterType === eventType.type ? "bg-indigo-100 text-indigo-700 font-bold" : "bg-gray-100 text-gray-400"}`}>
+                  {eventCounts[eventType.type] || 0}
+                </span>
+                <ChevronRight className={`w-4 h-4 transition-transform ${filterType === eventType.type ? "text-indigo-400 translate-x-1" : "text-gray-300 group-hover:text-gray-400"}`} />
+              </div>
+            </button>
+          ))}
+        </div>
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <button
+            onClick={(e) => {
+              const btn = e.currentTarget;
+              const originalText = btn.innerHTML;
+              btn.innerHTML = '<div class="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div> PDF Exporting...';
+              btn.disabled = true;
+              setTimeout(() => {
+                btn.innerHTML = '✓ Legend Exported';
+                btn.classList.add('bg-emerald-50', 'text-emerald-700');
+                setTimeout(() => {
+                  btn.innerHTML = originalText;
+                  btn.classList.remove('bg-emerald-50', 'text-emerald-700');
+                  btn.disabled = false;
+                }, 2000);
+              }, 1500);
+            }}
+            className="w-full py-2 bg-gray-50 text-gray-700 text-sm rounded-lg hover:bg-gray-100 transition-all active:scale-95 flex items-center justify-center gap-2 font-bold"
+          >
+            <Download className="w-4 h-4" />
+            Export Legend
+          </button>
+        </div>
+      </div>
 
       {/* Upcoming Events */}
       <div id="upcoming-events" className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm scroll-mt-24">
