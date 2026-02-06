@@ -197,7 +197,7 @@ function App() {
           </div>
         </header>
 
-        <div className="flex flex-col md:grid md:grid-cols-[1fr,300px] lg:grid-cols-[1fr,320px] gap-6 flex-1 px-4 md:px-8 pb-4 min-h-0">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-[1fr,300px] lg:grid-cols-[1fr,320px] gap-6 flex-1 px-4 md:px-8 pb-4 min-h-0">
           <div id="calendar-view" className="flex-1 overflow-y-auto md:pr-2 custom-scrollbar space-y-6">
             <QuarterOne
               events={filteredEvents}
