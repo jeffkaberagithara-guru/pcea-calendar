@@ -84,8 +84,10 @@ function App() {
       setSelectedEvent(virtualEvent);
 
       setTimeout(() => {
-        const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('events-panel');
-        detailsPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const eventsPanel = document.getElementById('events-panel');
+        if (eventsPanel) {
+          eventsPanel.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }, 100);
     } else {
       setSelectedEvent(null);
@@ -104,8 +106,10 @@ function App() {
       }
 
       setTimeout(() => {
-        const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('events-panel');
-        detailsPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const eventsPanel = document.getElementById('events-panel');
+        if (eventsPanel) {
+          eventsPanel.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }, 100);
     }
   };
