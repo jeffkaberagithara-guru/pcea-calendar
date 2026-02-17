@@ -25,23 +25,11 @@ function App() {
 
   React.useEffect(() => {
     const handleScroll = () => {
-      const scrollContainer = document.getElementById('calendar-view');
-      if (scrollContainer) {
-        setShowBackToTop(scrollContainer.scrollTop > 400);
-      }
+      setShowBackToTop(window.scrollY > 400);
     };
 
-    const scrollContainer = document.getElementById('calendar-view');
-    const timer = setTimeout(() => {
-      const el = document.getElementById('calendar-view');
-      el?.addEventListener('scroll', handleScroll);
-    }, 500);
-
-    return () => {
-      const el = document.getElementById('calendar-view');
-      el?.removeEventListener('scroll', handleScroll);
-      clearTimeout(timer);
-    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const showToast = (message, type = 'success') => {
@@ -88,11 +76,6 @@ function App() {
         if (detailsPanel) {
           detailsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
-        // Also ensure container is at top for desktop
-        const eventsPanel = document.getElementById('events-panel');
-        if (eventsPanel) {
-          eventsPanel.scrollTop = 0;
-        }
       }, 100);
     } else {
       setSelectedEvent(null);
@@ -114,11 +97,6 @@ function App() {
         const detailsPanel = document.getElementById('selected-event-details') || document.getElementById('event-details-placeholder');
         if (detailsPanel) {
           detailsPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-        // Also ensure container is at top for desktop
-        const eventsPanel = document.getElementById('events-panel');
-        if (eventsPanel) {
-          eventsPanel.scrollTop = 0;
         }
       }, 100);
     }
@@ -197,8 +175,8 @@ function App() {
           </div>
         </header>
 
-        <div className="flex flex-col-reverse md:grid md:grid-cols-4 gap-6 flex-1 px-4 md:px-8 pb-4 min-h-0">
-          <div id="calendar-view" className="md:col-span-3 overflow-y-auto md:pr-2 custom-scrollbar space-y-6">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-4 gap-6 flex-1 px-4 md:px-8 pb-8">
+          <div id="calendar-view" className="md:col-span-3 space-y-6">
             <QuarterOne
               events={filteredEvents}
               onEventSelect={handleEventSelect}
@@ -219,14 +197,16 @@ function App() {
             />
           </div>
 
-          <div id="events-panel" className="md:col-span-1 md:overflow-y-auto md:overflow-x-hidden pl-1 custom-scrollbar">
-            <EventsKeyPanel
-              events={events}
-              selectedEvent={selectedEvent}
-              onEventSelect={handleEventSelect}
-              filterType={filterType}
-              onFilterChange={handleFilterUpdate}
-            />
+          <div className="md:col-span-1">
+            <div id="events-panel" className="sticky top-6 self-start pl-1">
+              <EventsKeyPanel
+                events={events}
+                selectedEvent={selectedEvent}
+                onEventSelect={handleEventSelect}
+                filterType={filterType}
+                onFilterChange={handleFilterUpdate}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -246,7 +226,7 @@ function App() {
 
       {showBackToTop && (
         <button
-          onClick={() => document.getElementById('calendar-view')?.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-8 left-8 p-3 bg-white text-gray-900 rounded-full shadow-2xl border border-gray-100 hover:bg-gray-50 transition-all active:scale-90 z-[90] animate-in fade-in zoom-in duration-300"
           title="Back to Top"
         >
