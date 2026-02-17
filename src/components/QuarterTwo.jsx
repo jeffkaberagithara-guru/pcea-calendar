@@ -77,8 +77,8 @@ function QuarterTwo({ events, onEventSelect, selectedEvent, filterType = 'all' }
 
                         return (
                             <div key={month.abbr} className={`rounded-xl p-3 border ${theme.monthBgGradient} ${theme.monthBorder} flex flex-col sm:flex-row items-start gap-3 sm:gap-4`}>
-                                <div className="w-full sm:w-12 shrink-0 flex sm:flex-col items-center justify-between sm:justify-center sm:border-r border-gray-100/50 sm:pr-2 sm:mr-1">
-                                    <span className={`text-sm sm:text-base font-black uppercase tracking-tighter ${theme.monthTextColor}`}>{month.name}</span>
+                                <div className="w-full sm:w-20 shrink-0 flex sm:flex-col items-center justify-between sm:justify-center sm:border-r border-gray-100/50 sm:pr-4">
+                                    <span className={`text-sm sm:text-base font-black uppercase tracking-tight ${theme.monthTextColor}`}>{month.name}</span>
                                     <Sun className={`w-4 h-4 sm:mt-1 opacity-50 ${theme.monthIconColor}`} />
                                 </div>
 
