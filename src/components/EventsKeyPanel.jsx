@@ -13,7 +13,6 @@ import {
   BarChart,
   Filter,
   Download,
-  Share2,
   Eye,
   EyeOff,
   X,
@@ -93,36 +92,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
               </div>
             </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={(e) => {
-                  const btn = e.currentTarget;
-                  const originalText = btn.innerText;
-                  btn.innerText = "Opening Editor...";
-                  setTimeout(() => {
-                    btn.innerText = originalText;
-                  }, 1000);
-                }}
-                className="flex-1 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all active:scale-95 font-medium shadow-sm shadow-indigo-200"
-              >
-                Edit Event
-              </button>
-              <button
-                onClick={(e) => {
-                  navigator.clipboard.writeText(window.location.href);
-                  const btn = e.currentTarget;
-                  const originalContent = btn.innerHTML;
-                  btn.innerHTML = "✓ Copied!";
-                  setTimeout(() => {
-                    btn.innerHTML = originalContent;
-                  }, 2000);
-                }}
-                className="flex-1 py-2.5 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-gray-200 transition-all active:scale-95 font-bold"
-              >
-                <Share2 className="w-4 h-4 inline mr-2" />
-                Share
-              </button>
-            </div>
+
           </div>
         </div>
       ) : (
