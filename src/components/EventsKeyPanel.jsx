@@ -60,7 +60,7 @@ function EventsKeyPanel({ events, selectedEvent, onEventSelect, filterType, onFi
               Event Details
             </h3>
             <button
-              onClick={() => onEventSelect(null)}
+              onClick={() => onFilterChange('all')}
               className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full"
             >
               <X className="w-4 h-4" />
